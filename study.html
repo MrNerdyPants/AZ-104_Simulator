@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AZ-104 Study Mode — Azure Administrator</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Study layout reuses most exam styles — load them from exam.html's inline or duplicate key rules */
+    .study-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 64px);
+      gap: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Sidebar */
+    .study-sidebar {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow-y: auto;
+      position: sticky;
+      top: 64px;
+      max-height: calc(100vh - 64px);
+    }
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .filter-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .filter-btn.active { border-color: var(--azure-blue); background: rgba(0,120,212,0.1); color: var(--azure-blue); font-weight: 700; }
+    .filter-count {
+      background: var(--bg-primary);
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 99px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      box-sizing: border-box;
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { outline: none; border-color: var(--azure-blue); }
+
+    /* Type filter pills */
+    .type-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .type-pill {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      border-radius: 99px;
+      padding: 0.2rem 0.65rem;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .type-pill:hover { border-color: var(--azure-blue); color: var(--azure-blue); }
+    .type-pill.active { background: var(--azure-blue); border-color: var(--azure-blue); color: #fff; }
+
+    /* Study content */
+    .study-content {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .study-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .study-title { font-size: 1.1rem; font-weight: 700; }
+    .study-count { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* Study question list */
+    #study-question-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* Each question card (reuse from exam but add reveal button) */
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      scroll-margin-top: 80px;
+    }
+    .question-meta {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 0.5rem; margin-bottom: 1rem; font-size: 0.78rem;
+    }
+    .q-counter { font-weight: 700; color: var(--text-primary); }
+    .q-domain { padding: 0.2rem 0.6rem; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+    .q-domain.d1 { background: rgba(0,120,212,0.15); color: var(--d1-color); }
+    .q-domain.d2 { background: rgba(0,180,216,0.15); color: var(--d2-color); }
+    .q-domain.d3 { background: rgba(131,56,236,0.15); color: var(--d3-color); }
+    .q-domain.d4 { background: rgba(6,214,160,0.15); color: var(--d4-color); }
+    .q-domain.d5 { background: rgba(247,127,0,0.15); color: var(--d5-color); }
+    .q-type { background: var(--bg-primary); color: var(--text-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; }
+    .q-subdomain { color: var(--text-muted); font-size: 0.72rem; }
+    .q-id { color: var(--text-muted); font-size: 0.7rem; margin-left: auto; }
+    .scenario-box {
+      background: rgba(0,120,212,0.08);
+      border-left: 3px solid var(--azure-blue);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .question-text { font-size: 1rem; line-height: 1.7; color: var(--text-primary); margin: 0 0 1rem; font-weight: 500; }
+    .multi-hint { font-size: 0.78rem; color: var(--azure-blue); font-weight: 600; margin-bottom: 0.5rem; }
+    .options-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .option-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .option-item:hover { background: var(--bg-hover); border-color: var(--azure-blue); }
+    .option-item input { display: none; }
+    .option-item:has(input:checked) { background: rgba(0,120,212,0.12); border-color: var(--azure-blue); }
+    .option-letter {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--bg-primary); border: 1px solid var(--border-color);
+      font-weight: 700; font-size: 0.78rem; flex-shrink: 0; color: var(--text-secondary);
+    }
+    .option-item:has(input:checked) .option-letter { background: var(--azure-blue); border-color: var(--azure-blue); color: #fff; }
+    .option-text { color: var(--text-primary); line-height: 1.5; }
+    .option-item.correct { background: rgba(63,185,80,0.12); border-color: var(--success); }
+    .option-item.correct .option-letter { background: var(--success); border-color: var(--success); color: #fff; }
+    .option-item.incorrect { background: rgba(248,81,73,0.12); border-color: var(--error); }
+    .option-item.incorrect .option-letter { background: var(--error); border-color: var(--error); color: #fff; }
+    .option-item.missed { background: rgba(63,185,80,0.06); border-color: var(--success); border-style: dashed; }
+
+    .btn-reveal {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.55rem 1.25rem;
+      background: transparent;
+      border: 1px solid var(--azure-blue);
+      color: var(--azure-blue);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-reveal:hover { background: rgba(0,120,212,0.1); }
+
+    .explanation-box {
+      margin-top: 1.25rem;
+      background: #0d1117;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--azure-blue);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+    .exp-correct-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: rgba(63,185,80,0.1);
+      border: 1px solid rgba(63,185,80,0.3);
+      border-radius: 6px;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #e6edf3;
+    }
+    .exp-check { color: var(--success); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .exp-correct-row strong { color: var(--success); }
+    .exp-body {
+      color: #c9d1d9;
+      line-height: 1.75;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .exp-reference {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .exp-reference a { color: var(--azure-blue); text-decoration: underline; word-break: break-all; }
+    .dd-answer { font-family: 'Consolas', monospace; font-size: 0.82rem; margin: 0.5rem 0 0; }
+
+    /* Case study card in study mode */
+    .cs-banner {
+      background: linear-gradient(135deg, rgba(0,120,212,0.08), transparent);
+      border: 1px solid rgba(0,120,212,0.25);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .cs-banner-title { font-weight: 700; color: var(--azure-blue); font-size: 0.88rem; margin-bottom: 0.5rem; }
+    .cs-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border-color); margin: 0 -1.25rem; padding: 0 1.25rem; }
+    .cs-tab-btn {
+      background: none; border: none; color: var(--text-secondary);
+      font-size: 0.78rem; padding: 0.5rem 0.75rem; cursor: pointer;
+      border-bottom: 2px solid transparent; font-weight: 500;
+    }
+    .cs-tab-btn.active { color: var(--azure-blue); border-bottom-color: var(--azure-blue); }
+    .cs-tab-content { display: none; padding-top: 0.75rem; }
+    .cs-tab-content.active { display: block; }
+    .cs-content { font-family: 'Consolas', monospace; font-size: 0.8rem; color: var(--text-secondary); margin: 0; white-space: pre-wrap; }
+
+    /* Drag drop */
+    .dragdrop-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .panel-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 0 0 0.5rem; }
+    .drag-source { display: flex; flex-direction: column; gap: 0.4rem; }
+    .drag-item { padding: 0.6rem 0.85rem; background: var(--bg-hover); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; cursor: grab; user-select: none; }
+    .drop-zone { margin-bottom: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; }
+    .dz-label { display: block; font-size: 0.8rem; padding: 0.5rem 0.75rem; background: var(--bg-primary); color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+    .dz-slot { min-height: 38px; padding: 0.4rem 0.75rem; color: var(--text-muted); font-size: 0.82rem; }
+    .placed-item { padding: 0.4rem 0.6rem; background: rgba(0,120,212,0.15); border-radius: 4px; font-size: 0.85rem; color: var(--azure-blue); font-weight: 600; }
+    .placed-item.dd-correct { background: rgba(63,185,80,0.15); color: var(--success); }
+    .placed-item.dd-incorrect { background: rgba(248,81,73,0.15); color: var(--error); }
+    .dz-correct { border-color: var(--success); }
+    .dz-incorrect { border-color: var(--error); }
+
+    /* Show all answers toggle */
+    .reveal-all-btn {
+      padding: 0.55rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .reveal-all-btn:hover { background: var(--bg-hover); }
+
+    @media (max-width: 768px) {
+      .study-layout { grid-template-columns: 1fr; }
+      .study-sidebar { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--border-color); }
+      .dragdrop-wrapper { grid-template-columns: 1fr; }
+    }
+
+    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:0.5rem">
+        <div class="brand-logo">AZ</div>
+        <span class="brand-name">AZ-104 Simulator</span>
+      </a>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="exam.html" class="nav-link">Timed Exam</a>
+      <a href="study.html" class="nav-link active">Study Mode</a>
+    </nav>
+  </div>
+</header>
+
+<div class="study-layout">
+  <!-- Sidebar -->
+  <aside class="study-sidebar">
+    <div>
+      <div class="sidebar-section-title">Search</div>
+      <input class="search-input" type="text" id="search-input" placeholder="Search questions..." oninput="applyFilters()">
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Domain</div>
+      <div class="filter-group" id="domain-filters">
+        <button class="filter-btn active" data-domain="0" onclick="setDomain(this, 0)">
+          All Domains <span class="filter-count" id="cnt-0">—</span>
+        </button>
+        <button class="filter-btn" data-domain="1" onclick="setDomain(this, 1)">
+          D1: Identities &amp; Gov <span class="filter-count" id="cnt-1">—</span>
+        </button>
+        <button class="filter-btn" data-domain="2" onclick="setDomain(this, 2)">
+          D2: Storage <span class="filter-count" id="cnt-2">—</span>
+        </button>
+        <button class="filter-btn" data-domain="3" onclick="setDomain(this, 3)">
+          D3: Compute <span class="filter-count" id="cnt-3">—</span>
+        </button>
+        <button class="filter-btn" data-domain="4" onclick="setDomain(this, 4)">
+          D4: Networking <span class="filter-count" id="cnt-4">—</span>
+        </button>
+        <button class="filter-btn" data-domain="5" onclick="setDomain(this, 5)">
+          D5: Monitor &amp; Backup <span class="filter-count" id="cnt-5">—</span>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Question Type</div>
+      <div class="type-pills">
+        <button class="type-pill active" data-type="all" onclick="setType(this, 'all')">All</button>
+        <button class="type-pill" data-type="single" onclick="setType(this, 'single')">Single</button>
+        <button class="type-pill" data-type="multi" onclick="setType(this, 'multi')">Multi</button>
+        <button class="type-pill" data-type="yesno" onclick="setType(this, 'yesno')">Yes/No</button>
+        <button class="type-pill" data-type="dragdrop" onclick="setType(this, 'dragdrop')">Drag &amp; Drop</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Case Studies</div>
+      <div class="filter-group" id="cs-filters">
+        <button class="filter-btn" data-cs="all" onclick="setCS(this, 'all')">All Questions</button>
+      </div>
+    </div>
+
+    <div style="margin-top:auto">
+      <a href="exam.html" style="display:block;text-align:center;padding:0.65rem;background:var(--azure-blue);color:#fff;border-radius:7px;font-weight:700;font-size:0.88rem;text-decoration:none">▶ Take Timed Exam</a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="study-content">
+    <div class="study-header">
+      <div>
+        <div class="study-title" id="study-title">All Questions</div>
+        <div class="study-count" id="study-count">Loading...</div>
+      </div>
+      <button class="reveal-all-btn" onclick="revealAll()">Show All Answers</button>
+    </div>
+
+    <div id="study-question-list">
+      <div class="empty-state">Loading questions...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Load data -->
+<script src="data/domain1.js"></script>
+<script src="data/domain2.js"></script>
+<script src="data/domain3.js"></script>
+<script src="data/domain4.js"></script>
+<script src="data/domain5.js"></script>
+<script src="data/case_studies.js"></script>
+<script src="js/engine.js"></script>
+
+<script>
+// ── Study mode controller ────────────────────────────────────────────────────
+let activeDomain = 0;
+let activeType = 'all';
+let activeCS = 'all';
+let revealedAll = false;
+let allQuestions = [];
+
+const typeLabels = { single:'Single Choice', multi:'Multiple Choice', yesno:'Yes/No', dragdrop:'Drag & Drop' };
+
+function init() {
+  if (typeof QUESTIONS === 'undefined' || QUESTIONS.length === 0) {
+    document.getElementById('study-question-list').innerHTML =
+      '<div class="empty-state">No questions found. Ensure data files are loaded.</div>';
+    return;
+  }
+  allQuestions = QUESTIONS;
+
+  // URL param
+  const p = new URLSearchParams(window.location.search);
+  const d = parseInt(p.get('domain') || '0');
+  if (!isNaN(d) && d >= 0 && d <= 5) {
+    activeDomain = d;
+    document.querySelectorAll('#domain-filters .filter-btn').forEach(b => {
+      b.classList.toggle('active', parseInt(b.dataset.domain) === d);
+    });
+  }
+
+  // Count per domain
+  for (let i = 0; i <= 5; i++) {
+    const cnt = i === 0 ? allQuestions.length : allQuestions.filter(q => q.domain === i).length;
+    const el = document.getElementById(`cnt-${i}`);
+    if (el) el.textContent = cnt;
+  }
+
+  // Build case study filter buttons
+  if (typeof CASE_STUDIES !== 'undefined') {
+    const csContainer = document.getElementById('cs-filters');
+    Object.values(CASE_STUDIES).forEach(cs => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      btn.dataset.cs = cs.id;
+      btn.textContent = cs.title.substring(0, 28) + (cs.title.length > 28 ? '…' : '');
+      btn.title = cs.title;
+      btn.onclick = () => setCS(btn, cs.id);
+      csContainer.appendChild(btn);
+    });
+  }
+
+  applyFilters();
+}
+
+function setDomain(btn, domain) {
+  activeDomain = domain;
+  document.querySelectorAll('#domain-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function setType(btn, type) {
+  activeType = type;
+  document.querySelectorAll('.type-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function setCS(btn, csId) {
+  activeCS = csId;
+  document.querySelectorAll('#cs-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const search = (document.getElementById('search-input').value || '').toLowerCase();
+  let questions = [...allQuestions];
+
+  if (activeDomain > 0) questions = questions.filter(q => q.domain === activeDomain);
+  if (activeType !== 'all') questions = questions.filter(q => q.type === activeType);
+  if (activeCS !== 'all') questions = questions.filter(q => q.caseStudyId === activeCS);
+  if (search) {
+    questions = questions.filter(q =>
+      (q.question && q.question.toLowerCase().includes(search)) ||
+      (q.subdomain && q.subdomain.toLowerCase().includes(search)) ||
+      (q.explanation && q.explanation.toLowerCase().includes(search))
+    );
+  }
+
+  const domainTitles = {
+    0: 'All Questions',
+    1: 'Domain 1: Identities & Governance',
+    2: 'Domain 2: Storage',
+    3: 'Domain 3: Compute',
+    4: 'Domain 4: Virtual Networking',
+    5: 'Domain 5: Monitor & Maintain'
+  };
+  document.getElementById('study-title').textContent = activeCS !== 'all' && CASE_STUDIES[activeCS]
+    ? CASE_STUDIES[activeCS].title
+    : (domainTitles[activeDomain] || 'Questions');
+  document.getElementById('study-count').textContent = `${questions.length} question${questions.length !== 1 ? 's' : ''}`;
+
+  renderQuestions(questions);
+}
+
+function renderQuestions(questions) {
+  const list = document.getElementById('study-question-list');
+  if (questions.length === 0) {
+    list.innerHTML = '<div class="empty-state">No questions match your filters.</div>';
+    return;
+  }
+
+  let html = '';
+  let lastCS = null;
+
+  questions.forEach((q, i) => {
+    // Case study banner — only show when CS changes
+    if (q.caseStudyId && q.caseStudyId !== lastCS && typeof CASE_STUDIES !== 'undefined' && CASE_STUDIES[q.caseStudyId]) {
+      html += buildCSBanner(CASE_STUDIES[q.caseStudyId]);
+      lastCS = q.caseStudyId;
+    } else if (!q.caseStudyId) {
+      lastCS = null;
+    }
+
+    html += buildQuestionCard(q, i + 1);
+  });
+
+  list.innerHTML = html;
+
+  // Wire up all options
+  questions.forEach(q => {
+    if (q.type !== 'dragdrop') wireStudyOptions(q);
+    else initStudyDragDrop(q);
+  });
+
+  if (revealedAll) questions.forEach(q => revealQuestionAnswer(q));
+}
+
+function buildCSBanner(cs) {
+  let html = `<div class="cs-banner">
+    <div class="cs-banner-title">📋 Case Study: ${esc(cs.title)}</div>`;
+  if (cs.image) {
+    html += `<img src="${cs.image}" alt="${esc(cs.title)}" style="max-width:100%;max-height:140px;border-radius:6px;margin-bottom:0.5rem;display:block;" onerror="this.style.display='none'">`;
+  }
+  if (cs.tabs && cs.tabs.length) {
+    html += `<div class="cs-tabs">`;
+    cs.tabs.forEach((tab, i) => {
+      html += `<button class="cs-tab-btn ${i === 0 ? 'active' : ''}" onclick="switchStudyCSTab(this,'cs-study-${cs.id}-${i}')">${esc(tab.label)}</button>`;
+    });
+    html += `</div>`;
+    cs.tabs.forEach((tab, i) => {
+      html += `<div class="cs-tab-content ${i === 0 ? 'active' : ''}" id="cs-study-${cs.id}-${i}">
+        <pre class="cs-content">${esc(tab.content)}</pre></div>`;
+    });
+  }
+  html += `</div>`;
+  return html;
+}
+
+function switchStudyCSTab(btn, targetId) {
+  const banner = btn.closest('.cs-banner');
+  if (!banner) return;
+  banner.querySelectorAll('.cs-tab-btn').forEach(b => b.classList.remove('active'));
+  banner.querySelectorAll('.cs-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const t = document.getElementById(targetId);
+  if (t) t.classList.add('active');
+}
+
+function buildQuestionCard(q, num) {
+  const typeLabel = typeLabels[q.type] || q.type;
+  const domainLabel = `D${q.domain}`;
+
+  let html = `<div class="question-card" id="qcard-${q.id}">
+    <div class="question-meta">
+      <span class="q-counter">Q${num}</span>
+      <span class="q-domain d${q.domain}">${domainLabel}</span>
+      <span class="q-type">${typeLabel}</span>
+      <span class="q-subdomain">${esc(q.subdomain || '')}</span>
+      <span class="q-id">ID: ${q.id}</span>
+    </div>`;
+
+  if (q.scenario) {
+    html += `<div class="scenario-box"><strong>Scenario:</strong> ${esc(q.scenario)}</div>`;
+  }
+
+  if (q.image) {
+    html += `<div class="question-image" style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border-color)"><img src="${q.image}" alt="Diagram" style="width:100%;display:block" onerror="this.style.display='none'"></div>`;
+  }
+
+  html += `<p class="question-text">${esc(q.question)}</p>`;
+
+  if (q.type === 'dragdrop') {
+    html += buildStudyDragDropHTML(q);
+  } else {
+    html += buildStudyOptionsHTML(q);
+  }
+
+  html += `<div class="explanation-box" id="exp-study-${q.id}" style="display:none"></div>`;
+  html += `<button class="btn-reveal" id="reveal-btn-${q.id}" onclick="revealQuestionAnswer(window._QUESTIONS.find(x=>x.id===${q.id}))">Reveal Answer &amp; Explanation</button>`;
+  html += `</div>`;
+  return html;
+}
+
+// Strip legacy "A. " / "B. " letter prefixes that some questions include in option text
+function stripLetter(str) {
+  return String(str || '').replace(/^[A-F]\.\s+/, '');
+}
+
+function buildStudyOptionsHTML(q) {
+  const isMulti = q.type === 'multi';
+  const inputType = isMulti ? 'checkbox' : 'radio';
+  let html = `<div class="options-list" id="study-opts-${q.id}">`;
+  if (isMulti) html += `<p class="multi-hint">Select all that apply.</p>`;
+  q.options.forEach((opt, i) => {
+    html += `<label class="option-item" id="study-opt-${q.id}-${i}">
+      <input type="${inputType}" name="study-q${q.id}" value="${i}" data-sqid="${q.id}" data-sidx="${i}">
+      <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+      <span class="option-text">${esc(stripLetter(opt))}</span>
+    </label>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function buildStudyDragDropHTML(q) {
+  if (!q.dragItems || !q.dropZones) {
+    return `<p style="color:var(--text-muted);font-size:0.85rem">Drag-and-drop data unavailable for this question.</p>`;
+  }
+  let html = `<div class="dragdrop-wrapper">
+    <div><h4 class="panel-label">Items</h4><div class="drag-source" id="study-ds-${q.id}">`;
+  q.dragItems.forEach((item, i) => {
+    html += `<div class="drag-item" draggable="true" data-sitem="${i}" data-sqid="${q.id}">${esc(item)}</div>`;
+  });
+  html += `</div></div><div><h4 class="panel-label">Drop Zones</h4>`;
+  q.dropZones.forEach((zone, i) => {
+    html += `<div class="drop-zone" id="study-dz-${q.id}-${i}" data-szone="${i}" data-sqid="${q.id}">
+      <span class="dz-label">${esc(zone)}</span>
+      <div class="dz-slot" id="study-slot-${q.id}-${i}">Drop here</div>
+    </div>`;
+  });
+  html += `</div></div>`;
+  return html;
+}
+
+function wireStudyOptions(q) {
+  // Study mode: selecting an answer checks it visually but doesn't auto-reveal
+}
+
+function initStudyDragDrop(q) {
+  const items = document.querySelectorAll(`.drag-item[data-sqid="${q.id}"]`);
+  const zones = document.querySelectorAll(`.drop-zone[data-sqid="${q.id}"]`);
+  let dragged = null;
+
+  items.forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragged = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => { item.classList.remove('dragging'); dragged = null; });
+  });
+
+  zones.forEach(zone => {
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if (!dragged) return;
+      const slot = document.getElementById(`study-slot-${q.id}-${zone.dataset.szone}`);
+      if (slot) slot.innerHTML = `<div class="placed-item" data-sitem="${dragged.dataset.sitem}">${esc(q.dragItems[parseInt(dragged.dataset.sitem)])}</div>`;
+    });
+  });
+}
+
+function revealQuestionAnswer(q) {
+  if (!q) return;
+  // Mark options
+  if (q.type === 'dragdrop') {
+    q.correct.forEach(([item, zone]) => {
+      const slot = document.getElementById(`study-slot-${q.id}-${zone}`);
+      if (slot) {
+        slot.innerHTML = `<div class="placed-item dd-correct">${esc(q.dragItems[item])}</div>`;
+      }
+      const dz = document.getElementById(`study-dz-${q.id}-${zone}`);
+      if (dz) dz.classList.add('dz-correct');
+    });
+  } else {
+    q.options.forEach((_, i) => {
+      const label = document.getElementById(`study-opt-${q.id}-${i}`);
+      if (!label) return;
+      const input = label.querySelector('input');
+      const isCorrect = q.correct.includes(i);
+      const isSelected = input && input.checked;
+      label.classList.remove('correct', 'incorrect', 'missed');
+      if (isCorrect && isSelected) label.classList.add('correct');
+      else if (!isCorrect && isSelected) label.classList.add('incorrect');
+      else if (isCorrect && !isSelected) label.classList.add('missed');
+      // Always highlight correct even if not selected
+      if (isCorrect) label.classList.add('correct');
+    });
+  }
+
+  // Show explanation
+  const box = document.getElementById(`exp-study-${q.id}`);
+  if (box) {
+    let correctText = '';
+    if (q.type === 'dragdrop') {
+      const mapping = (q.correct || []).map(([item, zone]) =>
+        `• &quot;${esc(q.dragItems[item])}&quot; → &quot;${esc(q.dropZones[zone])}&quot;`
+      ).join('<br>');
+      correctText = `<strong>Correct Mapping:</strong><br>${mapping}`;
+    } else {
+      const letters = (q.correct || []).map(i => String.fromCharCode(65 + i)).join(', ');
+      const texts = (q.correct || []).map(i => '<strong>' + esc(stripLetter(q.options[i])) + '</strong>').join('; ');
+      correctText = `Correct Answer${(q.correct||[]).length > 1 ? 's' : ''}: ${letters} — ${texts}`;
+    }
+
+    // Build explanation — convert literal \n to <br> safely
+    const explanationHtml = (q.explanation || 'No explanation provided.')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+
+    const referenceHtml = q.reference
+      ? `<div class="exp-reference">📖 <a href="${q.reference}" target="_blank" rel="noopener">${q.reference}</a></div>`
+      : '';
+
+    box.innerHTML = `
+      <div class="exp-correct-row">
+        <span class="exp-check">✓</span>
+        <span>${correctText}</span>
+      </div>
+      <div class="exp-body">${explanationHtml}</div>
+      ${referenceHtml}`;
+    box.style.display = '';
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Hide reveal button
+  const btn = document.getElementById(`reveal-btn-${q.id}`);
+  if (btn) btn.style.display = 'none';
+}
+
+function revealAll() {
+  revealedAll = true;
+  const list = document.getElementById('study-question-list');
+  allQuestions.filter(q => {
+    if (activeDomain > 0 && q.domain !== activeDomain) return false;
+    if (activeType !== 'all' && q.type !== activeType) return false;
+    return true;
+  }).forEach(q => revealQuestionAnswer(q));
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/\n/g, '<br>');
+}
+
+// Expose questions for inline onclick
+window._QUESTIONS = QUESTIONS;
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

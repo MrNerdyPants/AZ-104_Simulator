@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" style="background:#1c2128;border-radius:8px;font-family:Segoe UI,sans-serif">
+  <text x="400" y="20" text-anchor="middle" fill="#8b949e" font-size="11" font-weight="600">Woodgrove Bank — Compute Architecture (East US 2)</text>
+
+  <!-- CoreBanking — Dedicated Host -->
+  <rect x="20" y="35" width="140" height="80" rx="7" fill="#21262d" stroke="#0078d4" stroke-width="2"/>
+  <rect x="20" y="35" width="140" height="22" rx="7 7 0 0" fill="rgba(0,120,212,0.2)"/>
+  <text x="90" y="50" text-anchor="middle" fill="#0078d4" font-size="9" font-weight="700">CoreBanking</text>
+  <text x="90" y="62" text-anchor="middle" fill="#6e7681" font-size="7.5">Azure Dedicated Host</text>
+  <text x="90" y="78" text-anchor="middle" fill="#e6edf3" font-size="8">32 vCPU / 256 GB RAM</text>
+  <text x="90" y="90" text-anchor="middle" fill="#8b949e" font-size="7.5">Availability Zone 1</text>
+  <text x="90" y="102" text-anchor="middle" fill="#3fb950" font-size="7.5">SLA: 99.99%</text>
+  <text x="90" y="128" text-anchor="middle" fill="#6e7681" font-size="7">No hardware sharing</text>
+
+  <!-- WebPortal — App Service -->
+  <rect x="175" y="35" width="140" height="80" rx="7" fill="#21262d" stroke="#8338ec" stroke-width="2"/>
+  <rect x="175" y="35" width="140" height="22" rx="7 7 0 0" fill="rgba(131,56,236,0.2)"/>
+  <text x="245" y="50" text-anchor="middle" fill="#8338ec" font-size="9" font-weight="700">WebPortal</text>
+  <text x="245" y="62" text-anchor="middle" fill="#6e7681" font-size="7.5">Azure App Service</text>
+  <text x="245" y="78" text-anchor="middle" fill="#e6edf3" font-size="8">Autoscale: 2–20 instances</text>
+  <text x="245" y="90" text-anchor="middle" fill="#8b949e" font-size="7.5">Scale on HTTP queue depth</text>
+  <text x="245" y="102" text-anchor="middle" fill="#8338ec" font-size="7.5">.NET 6 · PaaS</text>
+
+  <!-- BatchProcessor — Pay-as-you-go VM -->
+  <rect x="330" y="35" width="140" height="80" rx="7" fill="#21262d" stroke="#d29922" stroke-width="2"/>
+  <rect x="330" y="35" width="140" height="22" rx="7 7 0 0" fill="rgba(210,153,34,0.2)"/>
+  <text x="400" y="50" text-anchor="middle" fill="#d29922" font-size="9" font-weight="700">BatchProcessor</text>
+  <text x="400" y="62" text-anchor="middle" fill="#6e7681" font-size="7.5">Pay-as-you-go VM</text>
+  <text x="400" y="78" text-anchor="middle" fill="#e6edf3" font-size="8">Start 10 PM · Stop 4 AM</text>
+  <text x="400" y="90" text-anchor="middle" fill="#8b949e" font-size="7.5">Deallocated = no charge</text>
+  <text x="400" y="102" text-anchor="middle" fill="#d29922" font-size="7.5">Cannot be interrupted</text>
+
+  <!-- ImageService — Container Apps -->
+  <rect x="485" y="35" width="140" height="80" rx="7" fill="#21262d" stroke="#06d6a0" stroke-width="2"/>
+  <rect x="485" y="35" width="140" height="22" rx="7 7 0 0" fill="rgba(6,214,160,0.2)"/>
+  <text x="555" y="50" text-anchor="middle" fill="#06d6a0" font-size="9" font-weight="700">ImageService</text>
+  <text x="555" y="62" text-anchor="middle" fill="#6e7681" font-size="7.5">Azure Container Apps</text>
+  <text x="555" y="78" text-anchor="middle" fill="#e6edf3" font-size="8">Scale-to-zero · KEDA</text>
+  <text x="555" y="90" text-anchor="middle" fill="#8b949e" font-size="7.5">0–500 req/sec</text>
+  <text x="555" y="102" text-anchor="middle" fill="#06d6a0" font-size="7.5">Python · Containerized</text>
+
+  <!-- AdminPortal — App Service / IaC -->
+  <rect x="640" y="35" width="140" height="80" rx="7" fill="#21262d" stroke="#f77f00" stroke-width="2"/>
+  <rect x="640" y="35" width="140" height="22" rx="7 7 0 0" fill="rgba(247,127,0,0.2)"/>
+  <text x="710" y="50" text-anchor="middle" fill="#f77f00" font-size="9" font-weight="700">AdminPortal</text>
+  <text x="710" y="62" text-anchor="middle" fill="#6e7681" font-size="7.5">App Service (IaC)</text>
+  <text x="710" y="78" text-anchor="middle" fill="#e6edf3" font-size="8">ARM / Bicep deployment</text>
+  <text x="710" y="90" text-anchor="middle" fill="#8b949e" font-size="7.5">20 concurrent users</text>
+  <text x="710" y="102" text-anchor="middle" fill="#f77f00" font-size="7.5">8 AM – 6 PM only</text>
+
+  <!-- Private ACR -->
+  <rect x="175" y="150" width="450" height="50" rx="7" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="400" y="168" text-anchor="middle" fill="#e6edf3" font-size="9.5" font-weight="700">Azure Container Registry (ACR) Premium</text>
+  <text x="400" y="183" text-anchor="middle" fill="#6e7681" font-size="8">Geo-replicated: East US 2 ↔ Central US · Private Registry · Standard VM Base Images</text>
+
+  <!-- Connect lines from apps to ACR -->
+  <line x1="90" y1="115" x2="90" y2="145" stroke="#0078d4" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="90" y1="145" x2="245" y2="152" stroke="#0078d4" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="245" y1="115" x2="245" y2="150" stroke="#8338ec" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="400" y1="115" x2="400" y2="150" stroke="#d29922" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="555" y1="115" x2="555" y2="150" stroke="#06d6a0" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="710" y1="115" x2="710" y2="145" stroke="#f77f00" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="710" y1="145" x2="555" y2="152" stroke="#f77f00" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- DR arrow to Central US -->
+  <rect x="175" y="220" width="450" height="35" rx="6" fill="#161b22" stroke="#30363d"/>
+  <text x="400" y="238" text-anchor="middle" fill="#8b949e" font-size="9" font-weight="600">Azure Site Recovery → Central US (DR Region)</text>
+  <text x="400" y="250" text-anchor="middle" fill="#6e7681" font-size="8">All production VMs replicated · RPO &lt;15 min · ACR geo-replica in Central US</text>
+
+  <line x1="400" y1="200" x2="400" y2="220" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Availability Zone badges -->
+  <rect x="20" y="122" width="140" height="14" rx="3" fill="rgba(63,185,80,0.1)" stroke="#3fb950" stroke-width="0.8"/>
+  <text x="90" y="132" text-anchor="middle" fill="#3fb950" font-size="7.5">Availability Zone 1 — 99.99% SLA</text>
+</svg>

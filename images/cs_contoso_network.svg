@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" style="background:#1c2128;border-radius:8px;font-family:Segoe UI,sans-serif">
+  <!-- Title -->
+  <text x="410" y="22" text-anchor="middle" fill="#8b949e" font-size="11" font-weight="600">Contoso Ltd — Network Topology</text>
+
+  <!-- On-premises Chicago -->
+  <rect x="20" y="40" width="160" height="120" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="100" y="60" text-anchor="middle" fill="#0078d4" font-size="10" font-weight="700">ON-PREMISES (Chicago)</text>
+  <rect x="35" y="68" width="130" height="22" rx="4" fill="#21262d" stroke="#30363d"/>
+  <text x="100" y="83" text-anchor="middle" fill="#e6edf3" font-size="9">Cisco ASA Firewall</text>
+  <rect x="35" y="96" width="60" height="18" rx="3" fill="#21262d" stroke="#30363d"/>
+  <text x="65" y="109" text-anchor="middle" fill="#8b949e" font-size="8">AD DS</text>
+  <rect x="105" y="96" width="60" height="18" rx="3" fill="#21262d" stroke="#30363d"/>
+  <text x="135" y="109" text-anchor="middle" fill="#8b949e" font-size="8">120 VMs</text>
+  <rect x="35" y="120" width="130" height="18" rx="3" fill="#21262d" stroke="#30363d"/>
+  <text x="100" y="133" text-anchor="middle" fill="#8b949e" font-size="8">192.168.0.0/16</text>
+  <text x="100" y="152" text-anchor="middle" fill="#6e7681" font-size="8">SharePoint · SQL</text>
+
+  <!-- VPN Tunnel -->
+  <line x1="180" y1="100" x2="260" y2="100" stroke="#d29922" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="220" y="92" text-anchor="middle" fill="#d29922" font-size="8" font-weight="700">S2S VPN</text>
+  <text x="220" y="113" text-anchor="middle" fill="#6e7681" font-size="8">IKEv2/IPsec</text>
+
+  <!-- Azure East US VNet1 -->
+  <rect x="260" y="35" width="240" height="240" rx="10" fill="#0f1117" stroke="#0078d4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="380" y="53" text-anchor="middle" fill="#0078d4" font-size="10" font-weight="700">Azure East US</text>
+  <text x="380" y="65" text-anchor="middle" fill="#6e7681" font-size="8">VNet1: 10.10.0.0/16</text>
+
+  <!-- VPN Gateway box -->
+  <rect x="275" y="72" width="100" height="36" rx="5" fill="#21262d" stroke="#d29922" stroke-width="1.5"/>
+  <text x="325" y="88" text-anchor="middle" fill="#d29922" font-size="9" font-weight="600">VPN Gateway</text>
+  <text x="325" y="100" text-anchor="middle" fill="#6e7681" font-size="7.5">GatewaySubnet</text>
+
+  <!-- Azure Firewall -->
+  <rect x="385" y="72" width="100" height="36" rx="5" fill="#21262d" stroke="#f85149" stroke-width="1.5"/>
+  <text x="435" y="88" text-anchor="middle" fill="#f85149" font-size="9" font-weight="600">Azure Firewall</text>
+  <text x="435" y="100" text-anchor="middle" fill="#6e7681" font-size="7.5">10.10.100.4</text>
+
+  <!-- App Subnet -->
+  <rect x="275" y="120" width="100" height="50" rx="5" fill="#21262d" stroke="#06d6a0" stroke-width="1"/>
+  <text x="325" y="138" text-anchor="middle" fill="#06d6a0" font-size="9" font-weight="600">AppSubnet</text>
+  <text x="325" y="150" text-anchor="middle" fill="#6e7681" font-size="7.5">10.10.1.0/24</text>
+  <text x="325" y="162" text-anchor="middle" fill="#8b949e" font-size="8">40 VMs</text>
+
+  <!-- Data Subnet -->
+  <rect x="385" y="120" width="100" height="50" rx="5" fill="#21262d" stroke="#8338ec" stroke-width="1"/>
+  <text x="435" y="138" text-anchor="middle" fill="#8338ec" font-size="9" font-weight="600">DataSubnet</text>
+  <text x="435" y="150" text-anchor="middle" fill="#6e7681" font-size="7.5">10.10.2.0/24</text>
+  <text x="435" y="162" text-anchor="middle" fill="#8b949e" font-size="8">SQL VMs</text>
+
+  <!-- Bastion -->
+  <rect x="320" y="185" width="110" height="30" rx="5" fill="#21262d" stroke="#00b4d8" stroke-width="1"/>
+  <text x="375" y="198" text-anchor="middle" fill="#00b4d8" font-size="9" font-weight="600">Azure Bastion</text>
+  <text x="375" y="208" text-anchor="middle" fill="#6e7681" font-size="7.5">Standard SKU</text>
+
+  <!-- Peering arrow East US → UK South -->
+  <line x1="500" y1="155" x2="560" y2="155" stroke="#06d6a0" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="530" y="147" text-anchor="middle" fill="#06d6a0" font-size="8">VNet Peering</text>
+  <text x="530" y="167" text-anchor="middle" fill="#6e7681" font-size="7">Gateway Transit</text>
+  <polygon points="558,150 568,155 558,160" fill="#06d6a0"/>
+
+  <!-- Azure UK South VNet2 -->
+  <rect x="565" y="100" width="200" height="140" rx="10" fill="#0f1117" stroke="#06d6a0" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="665" y="118" text-anchor="middle" fill="#06d6a0" font-size="10" font-weight="700">Azure UK South</text>
+  <text x="665" y="130" text-anchor="middle" fill="#6e7681" font-size="8">VNet2: 10.20.0.0/16</text>
+
+  <!-- UK VMs -->
+  <rect x="580" y="140" width="170" height="42" rx="5" fill="#21262d" stroke="#30363d"/>
+  <text x="665" y="158" text-anchor="middle" fill="#e6edf3" font-size="9">15 Azure VMs (EU)</text>
+  <text x="665" y="172" text-anchor="middle" fill="#6e7681" font-size="7.5">No local gateway needed</text>
+
+  <rect x="580" y="192" width="170" height="30" rx="5" fill="#21262d" stroke="#0078d4" stroke-width="1"/>
+  <text x="665" y="206" text-anchor="middle" fill="#0078d4" font-size="8.5">Use Remote Gateways ✓</text>
+  <text x="665" y="218" text-anchor="middle" fill="#6e7681" font-size="7.5">Traffic via EastUS VPN GW</text>
+
+  <!-- Internet cloud -->
+  <ellipse cx="410" cy="290" rx="60" ry="22" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="410" y="294" text-anchor="middle" fill="#8b949e" font-size="10">Internet</text>
+  <!-- UDR arrows -->
+  <line x1="325" y1="170" x2="380" y2="258" stroke="#f85149" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="340" y="225" fill="#f85149" font-size="7.5">UDR → Firewall</text>
+
+  <!-- Legend -->
+  <rect x="20" y="275" width="220" height="38" rx="6" fill="#161b22" stroke="#30363d"/>
+  <text x="30" y="289" fill="#6e7681" font-size="8" font-weight="700">LEGEND</text>
+  <line x1="30" y1="298" x2="50" y2="298" stroke="#d29922" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="55" y="301" fill="#8b949e" font-size="7.5">VPN Tunnel</text>
+  <line x1="110" y1="298" x2="130" y2="298" stroke="#06d6a0" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="135" y="301" fill="#8b949e" font-size="7.5">VNet Peering</text>
+  <line x1="30" y1="308" x2="50" y2="308" stroke="#f85149" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="55" y="311" fill="#8b949e" font-size="7.5">UDR → Firewall</text>
+</svg>
