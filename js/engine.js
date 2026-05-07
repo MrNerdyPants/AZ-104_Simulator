@@ -171,6 +171,12 @@ const Engine = (() => {
       showExplanation(q, true);
     }
 
+    // Review mode (exam submitted): auto-mark and show explanation on every render
+    if (state.submitted) {
+      markAnswers(q);
+      showExplanation(q, true);
+    }
+
     updateNavPanel();
     updateProgressBar();
     updateNavButtons();
@@ -445,7 +451,7 @@ const Engine = (() => {
       </div>
       <div class="exp-body">${explanationHtml}</div>
       ${referenceHtml}`;
-    box.style.display = '';
+    box.style.display = 'block';
   }
 
   function markAnswers(q) {
@@ -611,7 +617,7 @@ const Engine = (() => {
       return;
     }
     container.innerHTML = buildScoreHTML(score);
-    container.style.display = '';
+    container.style.display = 'block';
     const examArea = document.getElementById('exam-container');
     if (examArea) examArea.style.display = 'none';
   }
@@ -671,12 +677,6 @@ const Engine = (() => {
     const examArea = document.getElementById('exam-container');
     if (examArea) examArea.style.display = '';
     renderQuestion(0);
-    // Mark all answers visible
-    state.questions.forEach(q => {
-      markAnswers(q);
-      showExplanation(q, true);
-    });
-    renderQuestion(state.currentIndex);
   }
 
   // ── Helpers ──────────────────────────────────────────────────────────────────

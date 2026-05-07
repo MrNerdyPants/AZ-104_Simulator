@@ -533,6 +533,49 @@ nav a.active { color: var(--azure-blue); }
 
 .explanation-box.visible { display: block; }
 
+/* Engine-generated explanation inner elements */
+.exp-correct-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--success-bg);
+  border: 1px solid var(--success);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--success);
+  line-height: 1.5;
+}
+
+.exp-check {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.exp-body {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  white-space: pre-line;
+  margin-bottom: 10px;
+}
+
+.exp-body strong { color: var(--text-primary); }
+
+.exp-reference {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.exp-reference a { color: var(--info); text-decoration: none; }
+.exp-reference a:hover { text-decoration: underline; }
+
 .explanation-header {
   display: flex;
   align-items: center;

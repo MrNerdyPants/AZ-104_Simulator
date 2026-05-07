@@ -696,7 +696,7 @@ QUESTIONS.push.apply(QUESTIONS, [
       "3 copies in primary region (LRS) + 3 copies in secondary region. Secondary endpoint IS readable.",
       "3 copies across 3 AZs in primary (ZRS) + 3 copies asynchronously in a secondary region. Secondary NOT readable."
     ],
-    correct: [0, 1, 2, 3, 4],
+    correct: [[0,0],[1,1],[2,2],[3,3],[4,4]],
     explanation: "Azure Storage redundancy options:\n\nLRS (Locally Redundant Storage):\n• 3 synchronous copies within ONE datacenter in the primary region\n• Lowest cost, no geo or zone redundancy\n• Protects against: server/rack failures\n• Does NOT protect against: datacenter or regional outages\n\nZRS (Zone-Redundant Storage):\n• 3 synchronous copies across 3 different availability zones in the primary region\n• Protects against: zone failures\n• Does NOT protect against: regional outages\n\nGRS (Geo-Redundant Storage):\n• LRS in primary (3 copies) + asynchronous replication to secondary region (3 copies with LRS)\n• Secondary is NOT readable — failover only\n• 16 nines durability\n\nRA-GRS (Read-Access Geo-Redundant Storage):\n• Same as GRS but with READ access to the secondary endpoint\n• Secondary endpoint: https://<account>-secondary.blob.core.windows.net\n• Read RPO: Typically < 15 minutes\n\nGZRS (Geo-Zone-Redundant Storage):\n• ZRS in primary (3 AZs) + asynchronous replication to secondary (LRS)\n• Secondary is NOT readable (use RA-GZRS for read access)\n• Maximum resilience within primary region + geo-protection",
     reference: "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
   },

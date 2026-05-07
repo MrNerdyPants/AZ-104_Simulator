@@ -270,7 +270,7 @@ QUESTIONS.push.apply(QUESTIONS, [
       "30 S2S tunnels, higher throughput than Gw1, BGP, P2S, no zone redundancy, ~1 Gbps",
       "Zone-redundant deployment using Standard SKU public IP, 30 S2S tunnels, BGP, P2S"
     ],
-    correct: [0, 1, 2, 3],
+    correct: [[0,0],[1,1],[2,2],[3,3]],
     explanation: "VPN Gateway SKU comparison:\n\nBasic:\n• LEGACY SKU — not recommended for production\n• Max 10 S2S/VNet-to-VNet tunnels\n• NO BGP support\n• NO zone redundancy\n• Max P2S connections: 128\n• Basic public IP SKU (cannot be upgraded to Standard)\n\nVpnGw1:\n• 30 S2S tunnels\n• BGP support\n• P2S: 250 connections\n• ~650 Mbps aggregate throughput\n• NO zone redundancy\n\nVpnGw2:\n• 30 S2S tunnels\n• BGP support\n• P2S: 500 connections\n• ~1 Gbps aggregate throughput\n• NO zone redundancy\n\nVpnGw1AZ:\n• Zone-redundant (deployed across AZs)\n• Same capabilities as VpnGw1 but with AZ deployment\n• Requires Standard SKU public IP\n• 99.99% gateway SLA (vs 99.9% for non-AZ)\n\nAZ variants are available for all Gw1, Gw2, Gw3 SKUs.",
     reference: "https://learn.microsoft.com/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings#gwsku"
   },
@@ -396,7 +396,7 @@ QUESTIONS.push.apply(QUESTIONS, [
       "Enable Floating IP (Direct Server Return) on the load balancing rule",
       "Enable HA Ports on the load balancing rule (all ports, all protocols)"
     ],
-    correct: [0, 1, 2, 3],
+    correct: [[0,0],[1,1],[2,2],[3,3]],
     explanation: "SQL Server Always On Availability Group requires specific ILB configuration:\n\n1. Internal Load Balancer (ILB):\n   • SQL AG listeners use private IPs for internal access\n   • ILB provides a private frontend IP (no public IP)\n\n2. Health probe on port 59999:\n   • SQL AG uses a custom PowerShell script that listens on port 59999\n   • The script returns HTTP 200 only on the PRIMARY replica\n   • LB routes traffic only to the primary replica based on this health probe\n\n3. Floating IP (Direct Server Return):\n   • The SQL listener IP (e.g., 10.0.0.20) is also configured on the backend VM's NIC (loopback adapter or secondary IP)\n   • LB forwards packets with the destination IP = listener IP to the backend VM\n   • The VM accepts the packet because the listener IP is locally configured\n   • WITHOUT floating IP: LB rewrites destination IP to VM's primary IP — SQL listener won't respond\n\n4. HA Ports:\n   • Used when you need to load balance ALL ports/protocols with one rule\n   • Useful for Network Virtual Appliances (NVAs)\n   • For SQL AG specifically, you'd normally use port 1433 rule, but HA Ports would also work",
     reference: "https://learn.microsoft.com/azure/load-balancer/load-balancer-ha-ports-overview"
   },
