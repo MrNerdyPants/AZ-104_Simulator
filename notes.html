@@ -170,6 +170,7 @@
       <div class="sb-group-title"><span class="dot" style="background:var(--d3-color)"></span>3 · Compute<span class="chev">▼</span></div>
       <div class="sb-links">
         <a class="sb-link" href="#d3-vm">Virtual Machines</a>
+        <a class="sb-link" href="#d3-move">Move VM (RG/Sub/Region)</a>
         <a class="sb-link" href="#d3-disks">Managed Disks</a>
         <a class="sb-link" href="#d3-images">Images &amp; Compute Gallery</a>
         <a class="sb-link" href="#d3-availability">Availability</a>
@@ -209,11 +210,13 @@
       <div class="sb-links">
         <a class="sb-link" href="#d5-monitor">Azure Monitor</a>
         <a class="sb-link" href="#d5-dcr">DCR &amp; Agent</a>
+        <a class="sb-link" href="#d5-insights">Monitor Insights</a>
         <a class="sb-link" href="#d5-loganalytics">Log Analytics &amp; KQL</a>
         <a class="sb-link" href="#d5-alerts">Alerts &amp; Action Groups</a>
         <a class="sb-link" href="#d5-appinsights">Application Insights</a>
         <a class="sb-link" href="#d5-netwatcher">Network Watcher (Monitor)</a>
         <a class="sb-link" href="#d5-backup">Azure Backup</a>
+        <a class="sb-link" href="#d5-backupvault">Backup vault</a>
         <a class="sb-link" href="#d5-mars-mabs">Backup Agents</a>
         <a class="sb-link" href="#d5-asr">Site Recovery</a>
         <a class="sb-link" href="#d5-update">Update Manager</a>
@@ -1086,6 +1089,8 @@ $blob.BlobClient.SetAccessTier("Archive")</code></pre>
 <p class="ref">Reference: <a href="https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview">Hot, Cool, Cold, and Archive access tiers for blob data</a></p>
 </section>
 
+<div class="callout tip"><strong>💡 Newer detail — Smart tier &amp; Archive limits:</strong> Azure added a <strong>Smart tier</strong> that automatically moves blobs between Hot/Cool/Cold based on access patterns. Access tiers apply to <strong>block blobs only</strong>. The <strong>Archive</strong> tier is supported only on <strong>LRS, GRS, and RA-GRS</strong> accounts (not ZRS/GZRS), cannot be the account's default tier, and a blob must be <strong>rehydrated</strong> (up to ~15 hours) to an online tier before it can be read.</div>
+
 <section class="topic" id="d2-lifecycle">
 <h3>Blob Lifecycle Management</h3>
 
@@ -1599,6 +1604,44 @@ New-AzVM -ResourceGroupName rg1 -Name vm1 -Location eastus `
   -Credential (Get-Credential)</code></pre>
 
 <p class="ref">Reference: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">Sizes for virtual machines in Azure</a></p>
+</section>
+
+<section class="topic" id="d3-move">
+<h3>Move a VM (Resource Group, Subscription, or Region)</h3>
+<p>The AZ-104 objective "Move a virtual machine to another resource group, subscription, or region" is really three different operations with different mechanics.</p>
+
+<h4>Move to another resource group or subscription</h4>
+<p>This is an Azure Resource Manager (ARM) <strong>move</strong>. It re-parents resources; it does <strong>not</strong> change the physical region the resource runs in.</p>
+<ul>
+<li><strong>Same tenant required:</strong> a cross-subscription move needs both subscriptions in the <strong>same Microsoft Entra tenant</strong>.</li>
+<li><strong>Move dependencies together:</strong> you specify only top-level resources; child resources move with their parent. For a cross-subscription move, the VM and <em>all</em> dependent resources (managed disks, NIC, public IP, NSG, VNet, storage account) must be in the same resource group and moved together.</li>
+<li><strong>Both resource groups are locked</strong> (no create/delete/update) for up to <strong>4 hours</strong>. Existing resources keep running — <strong>no downtime</strong>.</li>
+<li><strong>The resource ID changes</strong> — update any scripts, templates, dashboards, or automation that reference the old ID.</li>
+<li><strong>Role assignments do not move</strong> — they become orphaned and must be recreated at the destination. Tags and policies don't follow automatically either.</li>
+<li><strong>A read-only lock</strong> on the source, destination, or subscription <strong>blocks the move</strong>.</li>
+<li>Max <strong>800 resources</strong> per single move operation. You <strong>can't move a resource group itself</strong> to another subscription — move its resources into an existing RG in the target subscription.</li>
+</ul>
+<p>Always <strong>validate</strong> first (validation is also auto-invoked on the real move):</p>
+<pre class="code"><code># Validate the move without performing it
+az resource invoke-action --action validateMoveResources \
+  --ids "/subscriptions/&lt;sub&gt;/resourceGroups/&lt;source-rg&gt;" \
+  --request-body "{ \"resources\":[\"&lt;resource-id&gt;\"], \"targetResourceGroup\":\"/subscriptions/&lt;sub&gt;/resourceGroups/&lt;dest-rg&gt;\" }"
+
+# Move to another resource group
+az resource move --destination-group &lt;dest-rg&gt; --ids &lt;id1&gt; &lt;id2&gt;
+
+# Move to another subscription (add destination subscription)
+az resource move --destination-group &lt;dest-rg&gt; --destination-subscription-id &lt;dest-sub&gt; --ids &lt;ids&gt;</code></pre>
+<pre class="code"><code># PowerShell
+Move-AzResource -DestinationResourceGroupName "&lt;dest-rg&gt;" -ResourceId &lt;resource-id&gt;
+# add -DestinationSubscriptionId "&lt;dest-sub&gt;" for a cross-subscription move</code></pre>
+
+<h4>Move to another region</h4>
+<p>An ARM move never changes region, so "moving" a VM to a new region means <strong>recreating it</strong> there. Use <strong>Azure Resource Mover</strong> (Portal: select resource → <strong>Move</strong> → <strong>Move to another region</strong>), which orchestrates dependencies and uses Azure Site Recovery under the hood to replicate and recreate the VM. You can also do it manually via a snapshot/image copied to the target region.</p>
+
+<div class="callout gotcha"><strong>⚠ Exam gotcha:</strong> A read-only lock anywhere in the chain blocks a move. Cross-subscription moves require the <strong>same Entra tenant</strong>. After a move, <strong>role assignments are orphaned</strong> — recreate them. And an RG/subscription move does <strong>not</strong> change the region — region change = <strong>Azure Resource Mover</strong> (or Site Recovery).</div>
+<div class="callout memorize"><strong>✅ Memorize:</strong> Move locks both RGs up to <strong>4 hours</strong> (no downtime); max <strong>800 resources</strong> per operation; cross-subscription = same tenant + move all dependencies together; region move = <strong>Azure Resource Mover</strong>.</div>
+<p class="ref">Reference: <a href="https://learn.microsoft.com/azure/azure-resource-manager/management/move-resource-group-and-subscription">Move resources to a new resource group or subscription</a> · <a href="https://learn.microsoft.com/azure/resource-mover/overview">Azure Resource Mover</a></p>
 </section>
 
 <section class="topic" id="d3-disks">
@@ -2235,6 +2278,7 @@ New-AzContainerRegistry -ResourceGroupName rg1 -Name myregistry -Sku Premium</co
 
 <section class="topic" id="d3-aks">
 <h3>Azure Kubernetes Service (AKS)</h3>
+<div class="callout tip"><strong>ℹ Scope note:</strong> AKS is <strong>not</strong> in the container objectives of the current (April 2026) AZ-104 skills list — which name only Azure Container Registry, Azure Container Instances, and Azure Container Apps. Know AKS at a high level, but prioritize ACR/ACI/ACA for the exam.</div>
 
 <p><strong>Azure Kubernetes Service (AKS)</strong> is Azure's managed Kubernetes offering. Kubernetes orchestrates containers across a cluster of machines — handling scheduling, scaling, self-healing, service discovery, and rolling updates. AKS removes most of the operational burden of running Kubernetes yourself.</p>
 
@@ -2852,6 +2896,7 @@ Add-AzVirtualNetworkPeering -Name spoke-to-hub `
 
 <section class="topic" id="d4-vpn">
 <h3>VPN Gateway</h3>
+<div class="callout tip"><strong>ℹ Scope note:</strong> VPN Gateway / hybrid connectivity is not an explicit line item in the current (April 2026) AZ-104 skills list (which focuses on VNets, peering, NSG/ASG, DNS, Load Balancer, endpoints, and Bastion). Understand the concepts, but don't over-invest study time here.</div>
 
 <p>A <strong>VPN Gateway</strong> is a type of <strong>virtual network gateway</strong> that sends encrypted traffic between an Azure VNet and another network over the public internet. Each VNet can have only <strong>one</strong> VPN gateway, and it must be deployed into the special subnet named <strong><code>GatewaySubnet</code></strong> (recommend /27).</p>
 
@@ -2921,6 +2966,7 @@ New-AzVirtualNetworkGatewayConnection -Name s2s-conn -ResourceGroupName rg-net `
 
 <section class="topic" id="d4-er">
 <h3>ExpressRoute &amp; Azure Virtual WAN</h3>
+<div class="callout tip"><strong>ℹ Scope note:</strong> ExpressRoute and Virtual WAN are not explicit objectives in the current (April 2026) AZ-104 skills list. Good background for the role; low priority for exam memorization.</div>
 
 <h4>ExpressRoute</h4>
 <p><strong>Azure ExpressRoute</strong> provides a <strong>private, dedicated connection</strong> between your on-premises network and Microsoft (Azure + Microsoft 365) <strong>through a connectivity provider</strong>, bypassing the public internet entirely. This delivers higher reliability, faster and more consistent latency, and higher bandwidth than typical internet VPN connections. ExpressRoute uses <strong>BGP</strong> to exchange routes.</p>
@@ -3139,6 +3185,7 @@ $rule  = New-AzLoadBalancerRuleConfig -Name rule-http -Protocol Tcp -FrontendPor
 
 <section class="topic" id="d4-appgw">
 <h3>Application Gateway (Layer 7) vs Front Door vs Traffic Manager</h3>
+<div class="callout tip"><strong>ℹ Scope note:</strong> The current (April 2026) AZ-104 load-balancing objective explicitly covers the <strong>Azure Load Balancer</strong> (internal/public) and troubleshooting it. Application Gateway, Front Door, and Traffic Manager aren't named line items — useful to recognize, but Load Balancer is the priority.</div>
 
 <p><strong>Azure Application Gateway</strong> is a <strong>Layer 7 (HTTP/HTTPS)</strong> web traffic load balancer that understands URLs and host headers, enabling content-based routing. It is <strong>regional</strong>. It includes an optional <strong>Web Application Firewall (WAF)</strong>.</p>
 
@@ -3426,6 +3473,35 @@ New-AzDataCollectionRuleAssociation `
 <div class="callout tip"><strong>💡 Tip:</strong> AMA authenticates using the VM's <strong>managed identity</strong>, not a workspace key — so there are no secrets to rotate.</div>
 
 <p class="ref">Reference: <a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/azure-monitor-agent-overview">Azure Monitor Agent overview</a></p>
+</section>
+
+<section class="topic" id="d5-insights">
+<h3>Azure Monitor Insights (VM, Storage, Network, Container)</h3>
+<p><strong>Insights</strong> are curated, ready-made monitoring experiences in Azure Monitor for specific resource types — they pre-build the metrics, workbooks, and visualizations so you don't assemble them yourself.</p>
+
+<h4>Host metrics vs guest metrics (VMs)</h4>
+<ul>
+<li><strong>Host metrics</strong> (CPU %, network, disk I/O measured at the hypervisor) are collected <strong>automatically and for free</strong> — no agent required.</li>
+<li><strong>Guest metrics &amp; logs</strong> (in-OS performance counters, memory, processes, event logs) require the <strong>Azure Monitor Agent (AMA)</strong> driven by a <strong>Data Collection Rule (DCR)</strong>, and incur ingestion/storage charges. Enabling "enhanced monitoring" on a VM installs AMA and starts a default metric set.</li>
+</ul>
+
+<h4>VM Insights</h4>
+<p>VM Insights gives a performance view across many VMs <em>plus</em> the <strong>Map</strong> feature — a live dependency map of processes and the inbound/outbound TCP connections between machines. The Map feature additionally needs the <strong>Dependency agent</strong> alongside AMA. All collected data lands in a <strong>Log Analytics workspace</strong> and is queryable with KQL.</p>
+
+<h4>The other Insights</h4>
+<table class="cmp-table">
+<thead><tr><th>Insight</th><th>What it shows</th></tr></thead>
+<tbody>
+<tr><td>VM Insights</td><td>VM performance + dependency Map (processes &amp; connections)</td></tr>
+<tr><td>Storage Insights</td><td>Storage account availability, transactions, latency, capacity</td></tr>
+<tr><td>Network Insights</td><td>Topology + health/metrics of network resources (NSG, Load Balancer, App Gateway…)</td></tr>
+<tr><td>Container Insights</td><td>Performance of AKS / container workloads (node &amp; pod CPU/memory)</td></tr>
+</tbody>
+</table>
+
+<div class="callout memorize"><strong>✅ Memorize:</strong> Host metrics = automatic &amp; free. Guest data = needs <strong>AMA + a DCR</strong> (and costs). VM Insights <strong>Map</strong> needs the <strong>Dependency agent</strong>. All Insights data is stored in a <strong>Log Analytics workspace</strong>.</div>
+<div class="callout gotcha"><strong>⚠ Exam gotcha:</strong> If a question asks how to see process-level dependencies or which machines talk to each other, the answer is <strong>VM Insights (Map)</strong> — not plain metrics. To collect <em>guest</em> OS data you must deploy AMA via a DCR; host metrics alone won't show in-guest memory or processes.</div>
+<p class="ref">Reference: <a href="https://learn.microsoft.com/azure/azure-monitor/vm/vminsights-overview">VM Insights overview</a> · <a href="https://learn.microsoft.com/azure/azure-monitor/vm/monitor-vm">Monitor virtual machines</a></p>
 </section>
 
 <section class="topic" id="d5-loganalytics">
@@ -3780,7 +3856,7 @@ Get-AzNetworkWatcherTopology -NetworkWatcher $nw -TargetResourceGroupName "rg1"<
 <p>Azure VM backup first takes a local <strong>snapshot</strong> (kept on the disk's storage) that enables fast "instant" restore before the data is transferred to the vault. The snapshot retention is configurable from <strong>1 to 5 days (default 2)</strong>.</p>
 
 <h4>Soft delete for backups</h4>
-<p><strong>Soft delete</strong> protects against malicious or accidental deletion of backups: when a backup item is deleted, its data is retained for an additional <strong>14 days</strong> (the default; can be extended up to 180 days) so it can be undeleted. It is on by default and there is no charge for the 14-day soft-deleted data.</p>
+<p><strong>Soft delete</strong> protects against malicious or accidental deletion of backups: when a backup item is deleted, its data is retained for an additional <strong>14 days</strong> (the default; can be extended up to 180 days) so it can be undeleted. It is now <strong>secure-by-default</strong> — soft delete is enforced and can't be disabled in most regions (deleting a vault also moves it to a soft-deleted state), and there is no charge for the default 14-day soft-deleted data.</p>
 
 <h4>Vault redundancy &amp; cross-region restore</h4>
 <table class="cmp-table">
@@ -3832,6 +3908,40 @@ Enable-AzRecoveryServicesBackupProtection `
 <div class="callout tip"><strong>💡 Tip:</strong> Azure VM backups are <strong>application-consistent</strong> on Windows (via VSS) and Linux (via pre/post scripts) — no agent install required because the backup <em>extension</em> is deployed automatically when you enable protection.</div>
 
 <p class="ref">Reference: <a href="https://learn.microsoft.com/en-us/azure/backup/backup-overview">Azure Backup overview</a></p>
+</section>
+
+<section class="topic" id="d5-backupvault">
+<h3>Azure Backup vault (vs Recovery Services vault)</h3>
+<p>AZ-104 now lists <strong>"Create an Azure Backup vault"</strong> as a separate objective from the Recovery Services vault. They are two <strong>distinct vault resource types</strong>, each protecting a different set of workloads — one cannot substitute for the other.</p>
+
+<h4>Which vault for which workload</h4>
+<table class="cmp-table">
+<thead><tr><th>Recovery Services vault (RSV)</th><th>Backup vault (newer "V2" workloads)</th></tr></thead>
+<tbody>
+<tr><td>Azure VMs</td><td>Azure Disks</td></tr>
+<tr><td>On-premises files/folders &amp; system state (MARS agent)</td><td>Azure Blobs (operational &amp; vaulted backup)</td></tr>
+<tr><td>On-premises app-aware backup via MABS / DPM</td><td>Azure Database for PostgreSQL (incl. flexible server)</td></tr>
+<tr><td>SQL Server / SAP HANA running in an Azure VM</td><td>Azure Kubernetes Service (AKS)</td></tr>
+<tr><td>Azure Files (snapshot-based)</td><td>Azure Files (vaulted backup)</td></tr>
+</tbody>
+</table>
+
+<h4>Backup vault specifics</h4>
+<ul>
+<li><strong>Redundancy</strong> chosen at creation: <strong>LRS, ZRS, or GRS</strong>. Encryption is Microsoft-managed by default, or customer-managed keys (CMK).</li>
+<li><strong>Managed identity:</strong> a Backup vault uses a <strong>system-assigned or user-assigned managed identity</strong> for RBAC to reach the resources it backs up and the Key Vault for encryption keys.</li>
+<li><strong>Cross Region Restore (CRR):</strong> with GRS you can restore PostgreSQL backups from the paired secondary region (billed at RA-GRS rates), even for DR drills.</li>
+<li><strong>Soft delete</strong> applies to both vault types and is now <strong>secure-by-default</strong> (see the Azure Backup section).</li>
+<li><strong>Azure Business Continuity Center (ABCC)</strong> gives one pane to manage protection across both RSV and Backup vaults.</li>
+</ul>
+<pre class="code"><code># Create a Backup vault (CLI, az dataprotection)
+az dataprotection backup-vault create -g RG1 --vault-name Vault1 \
+  --location eastus --type SystemAssigned \
+  --storage-settings datastore-type="VaultStore" type="LocallyRedundant"</code></pre>
+
+<div class="callout gotcha"><strong>⚠ Exam gotcha:</strong> Pick the vault by workload. <strong>VM, on-prem (MARS/MABS), SQL/SAP-in-VM, Azure Files snapshots → Recovery Services vault.</strong> <strong>Azure Disks, Blobs, PostgreSQL, AKS, Azure Files vaulted → Backup vault.</strong> A Recovery Services vault cannot back up Azure Disks/Blobs/PostgreSQL, and a Backup vault cannot back up an Azure VM.</div>
+<div class="callout memorize"><strong>✅ Memorize:</strong> Backup vault redundancy = <strong>LRS / ZRS / GRS</strong>; uses a <strong>managed identity</strong> for access; CRR (GRS) supports PostgreSQL secondary-region restore. Two separate, non-interchangeable resource types.</div>
+<p class="ref">Reference: <a href="https://learn.microsoft.com/azure/backup/backup-vault-overview">Backup vaults overview</a></p>
 </section>
 
 <section class="topic" id="d5-mars-mabs">
@@ -4088,7 +4198,7 @@ New-AzMaintenanceConfiguration -ResourceGroupName "rg1" `
     <tbody>
       <tr><td>Default Azure VM backup retention</td><td>30 days</td></tr>
       <tr><td>Instant restore snapshot retention</td><td>1–5 days (default 2)</td></tr>
-      <tr><td>Backup soft-delete retention</td><td>14 days (free)</td></tr>
+      <tr><td>Backup soft-delete retention</td><td>14–180 days (default 14; first 14 free). Now <em>secure-by-default</em> — can't be disabled in most regions</td></tr>
       <tr><td>Activity Log platform retention</td><td>90 days (export for longer)</td></tr>
       <tr><td>Platform metrics retention</td><td>93 days</td></tr>
       <tr><td>Alert severities</td><td>Sev 0 (Critical) → Sev 4 (Verbose)</td></tr>
