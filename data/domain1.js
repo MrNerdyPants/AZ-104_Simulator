@@ -730,3 +730,625 @@ QUESTIONS.push.apply(QUESTIONS, [
   }
 
 ]);
+
+
+// ─── Microsoft Practice Assessment — Domain 1 ───
+QUESTIONS.push.apply(QUESTIONS, [
+  {
+    id: 151,
+    domain: 1,
+    subdomain: "Entra External Collaboration",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that is linked to a Microsoft Entra tenant named contoso.com.\nAll users in contoso.com are currently able to invite external users to B2B collaboration.\nYou need to ensure that only members of the Guest Inviter, User Administrator, and Global Administrator roles can invite guest users.\nWhat should you configure?",
+    options: [
+      "Access reviews",
+      "Conditional Access",
+      "Cross-tenant access settings",
+      "External collaboration settings"
+    ],
+    correct: [3],
+    explanation: "External collaboration settings let you specify which roles in your organization can invite external users for B2B collaboration. These settings also include options for allowing or blocking specific domains and options for restricting which external guest users can see in your Microsoft Entra directory.\nConditional Access allows you to apply rules to strengthen authentication and block access to resources from unknown locations.\nCross-tenant access settings are used to configure collaboration with a specific Microsoft Entra organization.\nAccess reviews are not used to control who can invite guest users."
+  },
+  {
+    id: 152,
+    domain: 1,
+    subdomain: "Entra Users & Groups",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription.\nFrom PowerShell, you run the Get-MgUser cmdlet for a user and receive the following details:\nId: 8755b347-3545-3876-3987-999999999999\nDisplayName: Ben Smith\nMail: bsmith@contoso.com\nUserPrincipalName: bsmith_contoso.com#EXT#@fabrikam.com\nBased upon the output of the cmdlet, which statement accurately describes the user?",
+    options: [
+      "The user account is disabled.",
+      "The user is a guest in the tenant.",
+      "The user is assigned an administrative role.",
+      "The user is deleted."
+    ],
+    correct: [1],
+    explanation: "For guest users, the user principal name (UPN) will contain the email of the guest user (bsmith_contoso.com) followed by #EXT# followed by the domain name of the tenant (@fabrikam.com). Regular Microsoft Entra users appear in a format of user@fabrikam.com."
+  },
+  {
+    id: 153,
+    domain: 1,
+    subdomain: "Entra Users & Groups",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have a Microsoft Entra tenant.\nYou create a new user named User1.\nYou need to assign a Microsoft 365 E5 license to User1.\nWhich user attribute should be configured for User1 before you can assign the license?",
+    options: [
+      "First name",
+      "Last name",
+      "Other email address",
+      "Usage location",
+      "User type"
+    ],
+    correct: [3],
+    explanation: "Not all Microsoft 365 services are available in all locations. Before a license can be assigned to a user, you must specify the Usage location. The attributes of First name, Last name, Other email address, and User type are not mandatory for license assignment."
+  },
+  {
+    id: 154,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains multiple users and administrators.\nYou are creating a new custom role by using the following JSON.\n{ \"Name\": \"Custom Role\", \"Id\": null, \"IsCustom\": true, \"Description\": \"Custom Role description\", \"Actions\": [ \"Microsoft.Compute/*/read\", \"Microsoft.Compute/snapshots/write\", \"Microsoft.Compute/snapshots/read\" ], \"NotActions\": [ \"Microsoft.Compute/snapshots/delete\" ], \"AssignableScopes\": [ \"/subscriptions/00000000-0000-0000-0000-000000000000\", \"/subscriptions/11111111-1111-1111-1111-111111111111\" ] }\nWhich two actions can be performed by a user that is assigned the custom role? Each correct answer presents a complete solution.",
+    options: [
+      "Create and delete a snapshot.",
+      "Create and read a snapshot.",
+      "Create virtual machines.",
+      "Read all virtual machine settings."
+    ],
+    correct: [1, 3],
+    explanation: "The Actions include Microsoft.Compute/*/read, which grants read access to all compute resources, including all virtual machine settings. The Actions also include Microsoft.Compute/snapshots/write and Microsoft.Compute/snapshots/read, which allow creating and reading snapshots. The NotActions entry Microsoft.Compute/snapshots/delete explicitly removes the ability to delete a snapshot, so the role cannot create and delete a snapshot. The role does not grant Microsoft.Compute/virtualMachines/write, so it cannot create virtual machines."
+  },
+  {
+    id: 155,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains multiple virtual machines.\nYou need to ensure that a user named User1 can view all the resources in a resource group named RG1. You must use the principle of least privilege.\nWhich role should you assign to User1?",
+    options: [
+      "Billing Reader",
+      "Contributor",
+      "Reader",
+      "Tag Contributor"
+    ],
+    correct: [2],
+    explanation: "The Reader role allows you to view all the resources but does not allow you to make any changes. The Contributor role allows you to manage all the resources, the Billing Reader role provides read access only to billing data, and the Tag Contributor role allows you to manage entity tags without providing access to the entities themselves."
+  },
+  {
+    id: 156,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains several storage accounts.\nYou need to provide a user with the ability to perform the following tasks:\nManage containers within the storage accounts.\nView storage account access keys.\nThe solution must use the principle of least privilege.\nWhich role should you assign to the user?",
+    options: [
+      "Owner",
+      "Reader",
+      "Storage Account Contributor",
+      "Storage Blob Data Contributor"
+    ],
+    correct: [2],
+    explanation: "Storage Account Contributor allows the management of storage accounts. It provides access to the account key, which can be used to access data via Shared Key authorization. Storage Blob Data Contributor grants permissions to read, write, and delete Azure Storage containers and blobs. Reader allows you to view all resources but does not allow you to make any changes. Owner grants full access to manage all resources, including the ability to assign roles in Azure RBAC."
+  },
+  {
+    id: 157,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription and a user named User1.\nYou need to assign User1 a role that allows the user to create and manage all types of resources in the subscription. The solution must ensure that User1 is not able to assign roles to other users.\nWhich Azure role should you assign to User1?",
+    options: [
+      "API Management Service Contributor",
+      "Contributor",
+      "Owner",
+      "Reader"
+    ],
+    correct: [1],
+    explanation: "Users with the Contributor role can create and manage all types of resources but cannot delegate new access to other users. Users with the Reader role can view existing Azure resources but cannot perform any action against them. Users with the API Management Service Contributor role can only manage API Management services and APIs. Users with the Owner role have full access to all resources, including the right to delegate access to others."
+  },
+  {
+    id: 158,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "A financial institution is implementing Azure to enhance their infrastructure. They need to maintain strict access controls due to regulatory requirements.\nYou need to ensure that the finance team can view costs and manage budgets for Azure services without the ability to modify resources.\nWhich role should you assign to the finance team at the subscription scope?",
+    options: [
+      "Reader",
+      "Billing Reader",
+      "Contributor",
+      "Cost Management Contributor"
+    ],
+    correct: [3],
+    explanation: "The Cost Management Contributor role allows viewing costs and managing budgets without the ability to modify resources, which is appropriate for the finance team. The Billing Reader role is incorrect because it only provides access to view billing information, not manage budgets. The Contributor role is incorrect because it allows for management of resources. The Reader role is incorrect because it does not provide capabilities to manage budgets."
+  },
+  {
+    id: 159,
+    domain: 1,
+    subdomain: "Governance & Cost Management",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a resource group named RG1. RG1 contains a virtual machine that runs daily reports.\nYou need to ensure that the virtual machine shuts down when resource group costs exceed 75 percent of the allocated budget.\nWhich two actions should you perform? Each correct answer presents part of the solution.",
+    options: [
+      "Create an action group of type Runbook, and then select Scale Up VM.",
+      "Create an action group of type Runbook, and then select Stop VM as an action.",
+      "From Cost Management + Billing, create a new cost analysis.",
+      "From Cost Management + Billing, modify the Budgets settings."
+    ],
+    correct: [1, 3],
+    explanation: "You must go to Cost Management + Billing, and then Budgets to edit the budget associated with the resource group resources. You must also create a new action group of the Runbook type, and then choose Stop VM as an action. The cost analysis will not stop the virtual machine from running and the Scale Up VM action group is not required."
+  },
+  {
+    id: 160,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains 10 virtual machines.\nYou need to ensure that a user named User1 can tag all the virtual machines by using the Azure portal. The solution must follow the principle of least privilege.\nWhat should you do?",
+    options: [
+      "From the Azure portal, create a custom role that has the Microsoft.Compute virtual machines/*/write permission.",
+      "From the Azure portal, modify the Access control (IAM) settings of the virtual machines.",
+      "From the Azure portal, modify the Policies settings of the Azure subscription.",
+      "From the command line, run the az role assignment create command."
+    ],
+    correct: [1],
+    explanation: "The correct solution is to update the Access control (IAM) settings of the virtual machines in the Azure portal and assign User1 a role that grants tagging rights, such as the built-in Tag Contributor role. This follows the principle of least privilege because it gives User1 only the permissions required to apply and manage tags, without granting full write or administrative rights. Creating a custom role with full virtualMachines/*/write permission is unnecessary and too broad, modifying Policies only enforces tagging rules rather than granting permissions, and using the az role assignment create command is another way to assign roles but does not specify the least-privilege role or the portal-based method requested in the scenario."
+  },
+  {
+    id: 161,
+    domain: 1,
+    subdomain: "Group-Based Licensing",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains the following users:\nUser1: Member\nUser2: Member\nUser3: Guest\nUser4: Member\nThe subscription contains a group named Group1 with the following configuration:\nMembership type: Assigned\nMembers: User1, User2, User3\nOwners: User4\nYou assign a Microsoft 365 license to Group1.\nHow many Microsoft 365 licenses will be used?",
+    options: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    correct: [2],
+    explanation: "When you assign licenses to a Microsoft Entra group, the licenses are consumed only by the members of the group, not by the group's owners. In this case, Group1 has three members: User1, User2, and User3. Even though User3 is a guest user, assigning a license to them still consumes a license unless the organization has configured restricted guest licensing. User4 is an owner only, not a member, so they do not consume a license from this assignment. Therefore, a total of three Microsoft 365 licenses are used."
+  },
+  {
+    id: 162,
+    domain: 1,
+    subdomain: "Self-Service Password Reset",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have a Microsoft Entra tenant named contoso.com that contains a group named Group1. Group1 contains the following users:\nUser1 — Type: Member; Sync from on-premises: Yes\nUser2 — Type: Member; Sync from on-premises: No\nUser3 — Type: Guest; Sync from on-premises: No\nPassword writeback is enabled in Microsoft Entra Connect Sync.\nYou enable self-service password reset (SSPR) for Group1.\nYou need to identify which users can use SSPR.\nWhich users should you identify?",
+    options: [
+      "User1 only",
+      "User1 and User2 only",
+      "User2 and User3 only",
+      "User1, User2, and User3"
+    ],
+    correct: [1],
+    explanation: "SSPR registration is required for users in scope who are eligible to use SSPR. In this scenario, Group1 is in scope and includes two member users (User1 and User2) and one guest user (User3). Because password writeback is enabled, the synced member (User1) can use SSPR to write changes back to on-premises AD, and the cloud-only member (User2) can reset in Entra ID—both must register. Guest users (User3) are not supported for SSPR in the resource tenant (they manage passwords in their home tenant), so they do not need to register here."
+  },
+  {
+    id: 163,
+    domain: 1,
+    subdomain: "Entra Roles",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have a Microsoft Entra tenant that contains a user named User1.\nYou need to ensure that User1 can invite external users to the tenant. The solution must follow the principle of least privilege.\nWhich role should you assign to User1?",
+    options: [
+      "Global Administrator",
+      "Groups Administrator",
+      "Guest Inviter",
+      "Security Administrator"
+    ],
+    correct: [2],
+    explanation: "The correct solution is to assign the Guest Inviter role, because it grants only the specific ability to invite external users into the Microsoft Entra tenant, aligning with the principle of least privilege. The Global Administrator role would allow full tenant-wide control and far exceeds the requirement. The Groups Administrator role allows management of groups but not external user invitations. The Security Administrator role manages security settings and reports but does not enable guest invitations. Therefore, the Guest Inviter role provides the exact permissions needed without granting unnecessary rights."
+  },
+  {
+    id: 164,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have the following resource groups, management groups, and Azure subscriptions:\nTwo resource groups named RG1 and RG2 in a subscription named Sub1 and a management group named MG1.\nTwo resource groups named RG3 and RG4 in a subscription named Sub2 and a management group named MG1.\nTwo resource groups named RG5 and RG6 in a subscription named Sub3 and a management group named MG1.\nTwo resource groups named RG10 and RG11 in a subscription named Sub4 and a management group named MG2.\nTwo resource groups named RG11 and RG12 in a subscription named Sub5 and a management group named MG2.\nYou need to assign a role to a user to ensure the user can view all the resources in the subscriptions. The solution must use the principle of least privilege.\nWhich role should you assign?",
+    options: [
+      "the Reader role for MG1 and MG2",
+      "the Reader role for each subscription",
+      "the Contributor role for MG1 and MG2",
+      "the Reader role for each resource group"
+    ],
+    correct: [0],
+    explanation: "Assigning the Reader role for MG1 and MG2 is correct because the simplest way to give a user access to view all resources is to assign a role at the management group level. A role assigned at a management group is inherited by all subscriptions and resources beneath it, so a single Reader assignment at each of the two management groups covers every subscription. Assigning Reader per subscription or per resource group would work but requires many more assignments. The Contributor role would grant management permissions, which exceeds the least-privilege requirement to only view resources."
+  },
+  {
+    id: 165,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription.\nYou run the following command:\nGet-AzRoleDefinition | Format-Table -Property Name, Id\nThe command output contains data that includes the following:\nCustomRole1   111-222-333-444-555\nOwner         8e3af657-a8ff-443c-a75c-2fe8c4bcb635\nContributor   b24988ac-6180-42a0-ab88-20f7382dd24c\nReader        acdd72a7-3385-48ef-bd42-f606fba81ae7\nYou have a script that manages access to resources at the resource group level. The assignment process is automated by running the following PowerShell script nightly.\n$rg = \"RG1\"\n$RoleName = \"111-222-333-444-555\"\n$Role = Get-AzRoleDefinition -Name $RoleName\nNew-AzRoleAssignment -SignInName user1@contoso.com -RoleDefinitionName $Role.Name -ResourceGroupName $rg\nUser1 is unable to access the RG1 resource group. You discover that the script fails to complete for User1.\nYou need to modify the script to ensure that it does not fail.\nWhat should you change in the script?",
+    options: [
+      "$RoleName = \"CustomRole1\"",
+      "$RoleName = \"Reader\"",
+      "Replace Get-AzRoleDefinition -Name with Get-AzRoleDefinition -Id",
+      "Replace New-AzRoleAssignment with New-AzRoleDefinition"
+    ],
+    correct: [0],
+    explanation: "The Get-AzRoleDefinition cmdlet is called with the -Name parameter, which expects the role definition name (for example, CustomRole1), not the role definition ID. Because the script passes the ID (111-222-333-444-555) to -Name, the lookup returns nothing and $Role.Name is empty, so the role assignment fails. For the script to work as written, the $RoleName variable should refer to the name instead of the ID, so it should be set to $RoleName = \"CustomRole1\"."
+  },
+  {
+    id: 166,
+    domain: 1,
+    subdomain: "Azure Policy",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription.\nYou plan to create an Azure Policy definition named Policy1.\nYou need to include remediation information in Policy1.\nTo which definition section should you add remediation information for Policy1?",
+    options: [
+      "metadata",
+      "parameters",
+      "policyRule",
+      "then"
+    ],
+    correct: [0],
+    explanation: "You must use the RemediationDescription field in the metadata section from properties to specify a custom recommendation. The remaining options are valid parts of an Azure Policy definition but do not allow specific custom remediation information."
+  },
+  {
+    id: 167,
+    domain: 1,
+    subdomain: "Resource Locks",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a resource group named RG1.\nRG1 contains 10 resources.\nYou need to prevent the resources from being deleted accidentally. The solution must ensure that RG1 can be deleted if it no longer contains any resources.\nWhat should you do?",
+    options: [
+      "From the Azure portal, add a lock on RG1.",
+      "From the Azure portal, add a lock on each resource in RG1.",
+      "Run the Set-AzResourceGroup cmdlet.",
+      "Run the New-AzResourceGroup cmdlet."
+    ],
+    correct: [0],
+    explanation: "The correct solution is to configure a lock on RG1 from the Azure portal, because a Delete lock prevents accidental deletion of resources within the resource group while still allowing the resource group itself to be deleted once it is empty. Creating a new resource group with New-AzResourceGroup is irrelevant, and using Set-AzResourceGroup changes properties but does not enforce deletion protection. Locks are the supported mechanism for safeguarding resources against accidental deletion while maintaining flexibility to remove the resource group if needed."
+  },
+  {
+    id: 168,
+    domain: 1,
+    subdomain: "Governance & Tags",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains 25 virtual machines.\nYou need to ensure that each virtual machine is associated to a specific department for reporting purposes.\nWhat should you use?",
+    options: [
+      "tags",
+      "administrative units",
+      "management groups",
+      "Azure Storage accounts"
+    ],
+    correct: [0],
+    explanation: "Tags are metadata elements that can be applied to Azure resources. Tags can be used for tracking resources such as virtual machines and associating each resource to a department for billing and reporting purposes.\nAdministrative units are containers used for delegating administrative roles to manage a specific portion of Microsoft Entra. Administrative units cannot contain Azure virtual machines.\nManagement groups are containers that can be used to manage access, policy, and compliance across multiple Azure subscriptions.\nAzure Storage accounts contain Azure Storage data objects, including blobs, file shares, queues, tables, and disks. A storage account cannot contain virtual machines."
+  }
+]);
+
+
+// ─── Original Practice Questions — Domain 1 ───
+QUESTIONS.push.apply(QUESTIONS, [
+
+  {
+    id: 170,
+    domain: 1,
+    subdomain: "Administrative Units",
+    type: "single",
+    source: "Original Practice",
+    scenario: "Contoso has a single Microsoft Entra ID tenant shared by its London and Madrid offices. The Madrid IT helpdesk should be able to reset passwords only for users in the Madrid office, and must not be able to manage London users. All Madrid users are already in a group named MadridUsers.",
+    question: "What should you configure to delegate this scoped administration with the least administrative effort?",
+    options: [
+      "Create a separate Microsoft Entra ID tenant for Madrid and assign the helpdesk the Helpdesk Administrator role there",
+      "Create an administrative unit (AU), add the Madrid users (or MadridUsers as a group-member AU), and assign the Madrid helpdesk the Helpdesk Administrator role scoped to that AU",
+      "Assign the Madrid helpdesk the Helpdesk Administrator role at the tenant level and rely on Conditional Access to limit them",
+      "Create a management group for Madrid and assign the helpdesk Contributor on it"
+    ],
+    correct: [1],
+    explanation: "Administrative units (AUs) let you scope Microsoft Entra role assignments to a subset of the directory. By placing the Madrid users into an AU and assigning the Helpdesk Administrator role over that AU, the helpdesk can reset passwords only for Madrid users.\n\nWhy the others are wrong:\n• A second tenant fragments identity and massively increases overhead — AUs exist precisely to avoid this.\n• A tenant-level Helpdesk Administrator role applies to ALL users; Conditional Access governs sign-in, not which objects an admin can manage.\n• Management groups and the Contributor role are Azure RBAC governance constructs for Azure resources — they do not scope Microsoft Entra directory role permissions over users.\n\nNote: AUs require Microsoft Entra ID P1 for the members; dynamic membership AUs require P1 as well.",
+    reference: "https://learn.microsoft.com/entra/identity/role-based-access-control/administrative-units"
+  },
+
+  {
+    id: 171,
+    domain: 1,
+    subdomain: "Entra Roles vs Azure RBAC",
+    type: "single",
+    source: "Original Practice",
+    scenario: "A new colleague is given the Microsoft Entra User Administrator role. They report that although they can create and manage users in the directory, they cannot create a resource group or deploy a virtual machine in the company's Azure subscription.",
+    question: "What is the correct explanation for this behaviour?",
+    options: [
+      "User Administrator is an Azure RBAC role that only applies to resource groups, so a subscription-level assignment is missing",
+      "Microsoft Entra roles (such as User Administrator) govern Microsoft Entra ID resources; managing Azure resources requires a separate Azure RBAC assignment such as Contributor",
+      "The colleague must wait up to 24 hours for the User Administrator role to propagate to the subscription",
+      "User Administrator includes resource management, but a resource lock on the subscription is blocking the deployment"
+    ],
+    correct: [1],
+    explanation: "Microsoft Entra roles and Azure RBAC roles are two distinct authorization systems:\n• Microsoft Entra roles (Global Administrator, User Administrator, Helpdesk Administrator, etc.) control access to Microsoft Entra ID resources — users, groups, app registrations, directory settings.\n• Azure RBAC roles (Owner, Contributor, Reader, etc.) control access to Azure resources — VMs, storage, networks — scoped to management groups, subscriptions, resource groups, or resources.\n\nHolding User Administrator gives no rights over Azure resources. To deploy a VM, the colleague needs an Azure RBAC assignment (e.g., Contributor) at the appropriate scope.\n\nWhy the others are wrong:\n• User Administrator is a directory role, not an Azure RBAC role tied to resource groups.\n• Role assignments take effect quickly — there is no 24-hour cross-system propagation that would grant resource rights.\n• A resource lock prevents delete/modify of existing resources; it does not explain a complete lack of resource-management permission.",
+    reference: "https://learn.microsoft.com/azure/role-based-access-control/rbac-and-directory-admin-roles"
+  },
+
+  {
+    id: 172,
+    domain: 1,
+    subdomain: "Privileged Identity Management",
+    type: "single",
+    source: "Original Practice",
+    scenario: "Your security team wants administrators to hold high-privilege Microsoft Entra roles such as Global Administrator only when needed. Admins should request activation, be limited to a maximum activation duration, and require approval and MFA before the role becomes active. Permanent standing access should be eliminated.",
+    question: "Which Microsoft Entra ID feature should you use, and what licensing is required?",
+    options: [
+      "Conditional Access with a sign-in frequency control; requires Microsoft Entra ID P1",
+      "Microsoft Entra Privileged Identity Management (PIM) with eligible assignments; requires Microsoft Entra ID P2",
+      "Access Reviews configured to run weekly; requires Microsoft Entra ID P1",
+      "Per-user MFA with the role set to Enforced; included in all tenants"
+    ],
+    correct: [1],
+    explanation: "Microsoft Entra Privileged Identity Management (PIM) provides just-in-time, time-bound privileged access. With PIM you make role assignments 'eligible' rather than 'active', so an admin must activate the role on demand — optionally enforcing MFA at activation, approval workflows, justification, and a maximum activation duration. This removes standing privileged access.\n\nPIM requires Microsoft Entra ID P2 (or equivalent, such as the Microsoft Entra ID Governance / E5 bundles).\n\nWhy the others are wrong:\n• Conditional Access governs how a user signs in, not just-in-time role activation.\n• Access Reviews periodically recertify access but do not provide on-demand activation or eliminate standing access between reviews.\n• Per-user MFA only adds an authentication factor; it does not make a role eligible/time-bound.",
+    reference: "https://learn.microsoft.com/entra/id-governance/privileged-identity-management/pim-configure"
+  },
+
+  {
+    id: 173,
+    domain: 1,
+    subdomain: "Entra Users & Groups",
+    type: "single",
+    source: "Original Practice",
+    scenario: "An administrator accidentally deletes a user account named User1 from Microsoft Entra ID. Twelve days later, User1 reports they can no longer sign in and that all their group memberships and license assignments are gone.",
+    question: "What is the simplest way to restore User1 with their previous group memberships and licenses intact?",
+    options: [
+      "Recreate the user with the same userPrincipalName and reassign groups and licenses manually",
+      "Restore the user from the Deleted users list in Microsoft Entra ID, which retains the object for 30 days",
+      "Open a Microsoft support ticket — deleted Microsoft Entra users cannot be self-restored",
+      "Run Microsoft Entra Connect with a full synchronization to recreate the cloud account"
+    ],
+    correct: [1],
+    explanation: "When a Microsoft Entra ID user is deleted, the object is soft-deleted and moved to the Deleted users container, where it is retained for 30 days. Within that window an administrator can restore it from Microsoft Entra admin center → Users → Deleted users → Restore (or Restore-MgDirectoryDeletedItem). The restored object keeps its original objectId, group memberships, role assignments, and licenses.\n\nWhy the others are wrong:\n• Recreating the user generates a NEW objectId, so it is a different identity — memberships, licenses, and access references are lost and must be rebuilt.\n• No support ticket is needed within the 30-day window; self-restore is fully supported.\n• Microsoft Entra Connect only manages synced (on-premises sourced) objects; it would not restore a soft-deleted cloud object's prior state, and only applies to hybrid identities.",
+    reference: "https://learn.microsoft.com/entra/fundamentals/users-restore"
+  },
+
+  {
+    id: 174,
+    domain: 1,
+    subdomain: "Dynamic Groups",
+    type: "single",
+    source: "Original Practice",
+    scenario: "You need a dynamic membership rule for a security group that automatically includes every user whose department is exactly Sales AND whose usage location (country) is the United States (country code US).",
+    question: "Which membership rule syntax is correct?",
+    options: [
+      "department = \"Sales\" AND country = \"US\"",
+      "(user.department -eq \"Sales\") and (user.country -eq \"US\")",
+      "user.department == 'Sales' && user.country == 'US'",
+      "WHERE department IS Sales AND country IS US"
+    ],
+    correct: [1],
+    explanation: "Microsoft Entra dynamic membership rules use a specific syntax: each expression takes the form (property operator value), properties are prefixed with user. (or device. for device rules), string values are double-quoted, and conditions are joined with the lowercase logical operators and / or.\n\nThe correct rule is:\n(user.department -eq \"Sales\") and (user.country -eq \"US\")\n\nWhy the others are wrong:\n• 'department = \"Sales\"' omits the user. prefix and uses '=' instead of the -eq operator.\n• '==' and '&&' are programming-language operators, not the Microsoft Entra rule operators (-eq, -ne, -contains, -startsWith, etc.).\n• 'WHERE … IS …' is SQL-like syntax and is not valid for membership rules.\n\nDynamic groups require Microsoft Entra ID P1 licensing.",
+    reference: "https://learn.microsoft.com/entra/identity/users/groups-dynamic-membership"
+  },
+
+  {
+    id: 175,
+    domain: 1,
+    subdomain: "Azure RBAC — Data Roles",
+    type: "single",
+    source: "Original Practice",
+    scenario: "A data analyst named Ana must read and write blob data inside containers of a storage account named saanalytics, using her Microsoft Entra identity (Azure AD authorization). She must NOT be able to view or regenerate the storage account access keys, and must not manage the storage account configuration. The solution must follow least privilege.",
+    question: "Which built-in role should you assign to Ana on the storage account?",
+    options: [
+      "Storage Account Contributor",
+      "Contributor",
+      "Storage Blob Data Contributor",
+      "Reader"
+    ],
+    correct: [2],
+    explanation: "Storage Blob Data Contributor grants read, write, and delete access to blob containers and the blob data within them via Microsoft Entra (Azure AD) authorization. It does NOT grant access to the storage account's access keys, because data-plane data roles are separate from management-plane roles.\n\nWhy the others are wrong:\n• Storage Account Contributor manages the storage account AND can read the account access keys — that exceeds least privilege and exposes Shared Key access.\n• Contributor likewise can manage the account and retrieve keys; far too broad.\n• Reader is management-plane read-only and does not grant data-plane (blob read/write) permissions at all.\n\nKey concept: management-plane roles (e.g., Storage Account Contributor) control the resource; data-plane roles (e.g., Storage Blob Data Contributor/Reader/Owner) control access to the data itself.",
+    reference: "https://learn.microsoft.com/azure/storage/blobs/authorize-access-azure-active-directory"
+  },
+
+  {
+    id: 176,
+    domain: 1,
+    subdomain: "Custom Roles",
+    type: "single",
+    source: "Original Practice",
+    scenario: "You are authoring a custom Azure RBAC role definition. You set the AssignableScopes property to a single resource group: /subscriptions/<sub-id>/resourceGroups/RG1. A colleague asks whether the role can later be assigned at the parent subscription scope.",
+    question: "Which statement is correct about AssignableScopes?",
+    options: [
+      "AssignableScopes only documents intent; the role can be assigned at any scope in the tenant once created",
+      "AssignableScopes defines where the role can be assigned. With only RG1 listed, the role can be assigned at RG1 (and resources within it) but NOT at the parent subscription or other resource groups",
+      "Custom roles can only ever be assigned at the management group scope, regardless of AssignableScopes",
+      "AssignableScopes must always be set to the tenant root group ('/') for custom roles to function"
+    ],
+    correct: [1],
+    explanation: "AssignableScopes lists the scopes (management groups, subscriptions, or resource groups) where a custom role is available to be assigned. A role can be assigned at one of its AssignableScopes or at any child scope beneath it — but never at a scope above or outside the listed entries.\n\nWith AssignableScopes set only to RG1, the role can be assigned at RG1 or to resources within RG1, but not at the parent subscription or at a sibling resource group such as RG2.\n\nWhy the others are wrong:\n• AssignableScopes is enforced, not merely documentation.\n• Custom roles are not limited to management group scope.\n• Setting AssignableScopes to the tenant root ('/') is not supported for custom roles; you must list specific management groups, subscriptions, or resource groups.",
+    reference: "https://learn.microsoft.com/azure/role-based-access-control/role-definitions#assignablescopes"
+  },
+
+  {
+    id: 177,
+    domain: 1,
+    subdomain: "Access Reviews",
+    type: "single",
+    source: "Original Practice",
+    scenario: "A regulated company must periodically recertify which guest users still need access to a sensitive group named Project-Falcon. Reviewers should be prompted every quarter, and any guest not approved should have their access automatically removed. The company holds Microsoft Entra ID P2 licenses.",
+    question: "Which Microsoft Entra ID Governance feature should you configure?",
+    options: [
+      "A Conditional Access policy targeting guest users of Project-Falcon",
+      "An Access Review on the Project-Falcon group with a quarterly recurrence and 'Remove access' auto-apply for denied users",
+      "An Azure Policy with a DeployIfNotExists effect to remove unapproved guests",
+      "A dynamic membership rule that excludes guests after 90 days"
+    ],
+    correct: [1],
+    explanation: "Access Reviews (part of Microsoft Entra ID Governance, requiring Microsoft Entra ID P2) let you periodically recertify membership of groups, access packages, and role assignments. You can:\n• Scope the review to guest users of the Project-Falcon group\n• Set a recurrence (e.g., quarterly)\n• Choose reviewers (the user themselves, group owners, or specific people)\n• Enable 'Auto apply results' so that denied (or not-reviewed) users have access removed automatically\n\nWhy the others are wrong:\n• Conditional Access governs sign-in conditions, not periodic membership recertification.\n• Azure Policy governs Azure resources, not Microsoft Entra group membership recertification.\n• A dynamic rule changes membership based on attributes, but it does not implement reviewer approval/attestation, which is the regulatory requirement here.",
+    reference: "https://learn.microsoft.com/entra/id-governance/access-reviews-overview"
+  },
+
+  {
+    id: 178,
+    domain: 1,
+    subdomain: "Cost Management",
+    type: "single",
+    source: "Original Practice",
+    scenario: "The finance department needs the daily Azure usage and cost details for the entire billing scope delivered automatically to an Azure Storage account every day, in CSV format, so it can be ingested by an external analytics pipeline. They do not want to manually download data from Cost analysis.",
+    question: "What should you configure in Microsoft Cost Management?",
+    options: [
+      "A budget with a 100% actual-cost alert that emails the CSV to finance",
+      "A scheduled cost and usage export that writes CSV files to an Azure Storage account on a daily recurrence",
+      "An Azure Monitor diagnostic setting on the subscription that streams cost metrics to storage",
+      "A saved view in Cost analysis shared with the finance department"
+    ],
+    correct: [1],
+    explanation: "Cost Management Exports let you schedule recurring exports of cost and usage data to an Azure Storage account. You choose the scope, the dataset (e.g., actual cost / amortized cost / usage), the recurrence (daily, weekly, monthly), and the destination storage account and container. The data lands as CSV (or Parquet) files, ideal for downstream pipelines — exactly the requirement.\n\nWhy the others are wrong:\n• Budgets send threshold alerts; they do not deliver the full usage dataset as files.\n• Azure Monitor diagnostic settings stream resource logs/metrics, not Cost Management billing detail.\n• A saved view in Cost analysis is just a UI view; it still requires manual export and is not delivered to storage automatically.",
+    reference: "https://learn.microsoft.com/azure/cost-management-billing/costs/tutorial-export-acm-data"
+  },
+
+  {
+    id: 179,
+    domain: 1,
+    subdomain: "Entra Conditional Access — Named Locations",
+    type: "single",
+    source: "Original Practice",
+    scenario: "You are building a Conditional Access policy that should treat your company's corporate office public IP ranges as trusted, so that sign-ins from those ranges can be excluded from an MFA requirement.",
+    question: "What must you create first so the policy can reference these IP ranges?",
+    options: [
+      "A named location defining the corporate IP ranges (optionally marked as trusted)",
+      "An administrative unit containing the office users",
+      "A custom Azure RBAC role for the corporate network",
+      "A resource lock on the network security group"
+    ],
+    correct: [0],
+    explanation: "Named locations in Conditional Access are reusable definitions of IP address ranges (IPv4/IPv6 CIDR) or countries/regions. You define the corporate office public IP ranges as a named location and can mark it as 'trusted'. The Conditional Access policy then references that named location under Conditions → Locations to include or exclude it (for example, excluding the trusted corporate ranges from the MFA grant control).\n\nWhy the others are wrong:\n• Administrative units scope directory-role administration over users; they do not define IP ranges for Conditional Access.\n• Custom Azure RBAC roles govern Azure resource permissions, unrelated to sign-in location conditions.\n• A resource lock prevents accidental delete/modify of Azure resources and has nothing to do with Conditional Access location logic.",
+    reference: "https://learn.microsoft.com/entra/identity/conditional-access/concept-assignment-network"
+  },
+
+  {
+    id: 180,
+    domain: 1,
+    subdomain: "Entra Roles",
+    type: "multi",
+    source: "Original Practice",
+    scenario: "Your help desk needs the ability to reset passwords for non-administrator users in Microsoft Entra ID. You are evaluating which built-in Microsoft Entra roles can perform this. You want to follow least privilege and avoid over-permissioned roles.",
+    question: "Which two built-in Microsoft Entra roles allow resetting passwords for non-administrator users? Each correct answer presents a complete solution.",
+    options: [
+      "Helpdesk Administrator",
+      "User Administrator",
+      "Reports Reader",
+      "Message Center Reader",
+      "Directory Readers"
+    ],
+    correct: [0, 1],
+    explanation: "Both Helpdesk Administrator and User Administrator can reset passwords for non-administrator users (and for users in a limited set of roles, per Microsoft's password-reset permissions matrix).\n\n• Helpdesk Administrator — a focused, lower-privilege role aimed at support scenarios including password resets for non-admins.\n• User Administrator — broader user-management role that also includes resetting passwords for non-admins.\n\nWhy the others are wrong:\n• Reports Reader can only read usage and sign-in reports.\n• Message Center Reader can only read Microsoft 365 Message Center posts.\n• Directory Readers can only read basic directory information; none of these three grant any password-reset capability.\n\nFor strict least privilege when only password resets are needed, Helpdesk Administrator is preferred over User Administrator.",
+    reference: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference"
+  },
+
+  {
+    id: 181,
+    domain: 1,
+    subdomain: "Azure Policy",
+    type: "multi",
+    source: "Original Practice",
+    scenario: "You are designing tag governance with Azure Policy. You want two outcomes: (1) when a resource is created without an 'Environment' tag, the tag should be added automatically from a default value during deployment and remediable on existing resources; and (2) resources should inherit the 'CostCenter' tag value from their parent resource group when the resource itself is missing that tag.",
+    question: "Which two policy effects/built-in behaviours should you use? Each correct answer presents part of the solution.",
+    options: [
+      "Use the Modify effect to add the 'Environment' tag, enabling remediation via a managed identity for existing resources",
+      "Use the built-in 'Inherit a tag from the resource group' policy (Modify effect) to copy 'CostCenter' onto resources missing it",
+      "Use the Audit effect to add both tags automatically during deployment",
+      "Use the Deny effect to copy the 'CostCenter' value from the resource group",
+      "Use a resource lock to propagate tags from the resource group to its resources"
+    ],
+    correct: [0, 1],
+    explanation: "Two complementary built-in behaviours solve this:\n\n1. Modify effect — adds, updates, or removes tags (and other properties) on create/update, and supports remediation tasks (using a managed identity) to fix existing resources. This satisfies adding the 'Environment' tag with a default value and remediating existing resources.\n\n2. 'Inherit a tag from the resource group' built-in policy (a Modify-effect policy) — copies a specified tag value from the parent resource group onto resources that are missing it. This satisfies the 'CostCenter' inheritance requirement (tags are NOT inherited automatically in Azure).\n\nWhy the others are wrong:\n• Audit only logs non-compliance; it never adds or changes tags.\n• Deny blocks non-compliant deployments; it cannot copy a tag value.\n• Resource locks prevent delete/modify operations and do not propagate tags.",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/management/tag-policies"
+  },
+
+  {
+    id: 182,
+    domain: 1,
+    subdomain: "Resource Locks",
+    type: "yesno",
+    source: "Original Practice",
+    scenario: "A subscription owner applies a CanNotDelete (Delete) lock to a resource group named Prod-RG. The resource group contains a virtual machine. A different administrator with the Contributor role then tries to stop (deallocate) the virtual machine and, separately, tries to delete the virtual machine.",
+    question: "Statement: With only a CanNotDelete lock in place, the administrator can stop (deallocate) the VM but cannot delete it.",
+    options: ["Yes", "No"],
+    correct: [0],
+    explanation: "Yes. A CanNotDelete lock blocks only delete operations on resources within its scope. Read and write operations remain allowed, so stopping/deallocating the VM (a write/management operation on the VM's power state) succeeds, while deleting the VM is blocked.\n\nIf the requirement had been to block configuration changes as well, a ReadOnly lock would be needed — but ReadOnly would also block legitimate write operations such as starting/stopping the VM. Here, the CanNotDelete lock correctly protects against accidental deletion while still permitting normal operations.\n\nNote: Locks apply regardless of the user's RBAC role — even an Owner must remove the lock before deleting the resource.",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+  },
+
+  {
+    id: 183,
+    domain: 1,
+    subdomain: "Azure RBAC",
+    type: "yesno",
+    source: "Original Practice",
+    scenario: "An organization assigns a user the User Access Administrator role at the subscription scope. The security team believes this lets the user create and manage virtual machines and storage accounts in the subscription.",
+    question: "Statement: The User Access Administrator role allows the user to create and manage virtual machines and storage accounts in the subscription.",
+    options: ["Yes", "No"],
+    correct: [1],
+    explanation: "No. The User Access Administrator role grants the ability to manage user access to Azure resources — specifically it includes Microsoft.Authorization/*/write (and read), letting the holder create and remove role assignments. It does NOT grant permission to create, configure, or manage the resources themselves (no Microsoft.Compute, Microsoft.Storage, etc. action permissions).\n\nTo both manage access AND manage resources, the user would need an additional role such as Contributor (resource management) or Owner (which combines full resource management with role-assignment rights).\n\nThis is a common exam distinction: User Access Administrator = access delegation only; Contributor = resource management without access delegation; Owner = both.",
+    reference: "https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator"
+  },
+
+  {
+    id: 184,
+    domain: 1,
+    subdomain: "Entra ID Licensing & Features",
+    type: "dragdrop",
+    source: "Original Practice",
+    question: "Match each Microsoft Entra ID feature to the lowest edition/license that includes it.",
+    dragItems: [
+      "Self-service password reset for cloud-only users (basic) and security defaults",
+      "Conditional Access and group-based licensing",
+      "Privileged Identity Management (PIM) and Identity Protection risk policies",
+      "Access Reviews"
+    ],
+    dropZones: [
+      "Microsoft Entra ID Free",
+      "Microsoft Entra ID P1",
+      "Microsoft Entra ID P2 (PIM / Identity Protection)",
+      "Microsoft Entra ID P2 (Governance — Access Reviews)"
+    ],
+    correct: [[0, 0], [1, 1], [2, 2], [3, 3]],
+    explanation: "Microsoft Entra ID feature-to-license mapping:\n\n• Free — includes security defaults and self-service password change/reset for cloud-only accounts at a basic level (full SSPR with on-premises writeback requires P1).\n• P1 — adds Conditional Access, group-based licensing, dynamic groups, SSPR with password writeback, and administrative units.\n• P2 — adds Identity Protection (risk-based policies) and Privileged Identity Management (PIM) for just-in-time privileged role activation.\n• P2 / Microsoft Entra ID Governance — Access Reviews for periodic recertification of access. (Access Reviews are part of the P2 / Governance capabilities.)\n\nKnowing which capability requires which edition is a frequently tested governance concept: Conditional Access and dynamic/group-based licensing draw the line at P1, while PIM, Identity Protection, and Access Reviews require P2/Governance.",
+    reference: "https://learn.microsoft.com/entra/fundamentals/licensing"
+  }
+
+]);
+
+
+// ─── Microsoft Practice Assessment (Attempt 2 additions) — Domain 1 ───
+QUESTIONS.push.apply(QUESTIONS, [
+  {
+    id: 185,
+    domain: 1,
+    subdomain: "Entra Groups & Licensing",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have a Microsoft Entra tenant named contoso.com. All users have cloud-only accounts.\nYou plan to deploy Microsoft 365 for all users.\nYou need to ensure that Microsoft 365 licenses are assigned to users automatically as new users are added to the tenant. The solution must minimize administrative effort.\nWhat should you configure?",
+    options: [
+      "A dynamic group combined with group-based licensing",
+      "A Microsoft Entra access review on the group",
+      "The User settings in Microsoft Entra ID",
+      "Self-service group management in the group's general settings"
+    ],
+    correct: [0],
+    explanation: "Dynamic groups automatically include users based on defined user properties. When combined with group-based licensing, any user who matches the membership rule is added to the group and inherits the assigned Microsoft 365 license automatically — no manual assignment as new users are created. This minimizes administrative effort.\n\nWhy the others are wrong:\n• Access reviews recertify existing access to groups, apps, and roles — they do not assign licenses.\n• User settings configure default user role permissions, guest access, and LinkedIn connections — not licensing.\n• Self-service group management lets users create/join groups; it does not drive automatic license assignment.",
+    reference: "https://learn.microsoft.com/entra/identity/users/licensing-groups-assign"
+  },
+  {
+    id: 186,
+    domain: 1,
+    subdomain: "Resource Locks",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have several management groups and Azure subscriptions.\nYou want to prevent the accidental deletion of resources.\nTo which three resource types can you apply delete locks? Each correct answer presents a complete solution.",
+    options: [
+      "resource groups",
+      "subscriptions",
+      "virtual machines",
+      "management groups",
+      "storage account data (blobs)"
+    ],
+    correct: [0, 1, 2],
+    explanation: "Azure delete locks (CanNotDelete) can be applied at the subscription, resource group, and individual resource scopes — so you can lock a subscription, a resource group, or a specific resource such as a virtual machine.\n\nWhy the others are wrong:\n• Management groups do not support resource locks.\n• Locks operate on the management plane (Azure Resource Manager). They do NOT protect data-plane operations, so they cannot prevent deletion of storage account data such as blobs, files, queues, or tables.",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+  }
+]);

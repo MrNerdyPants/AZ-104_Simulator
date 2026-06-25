@@ -634,3 +634,655 @@ QUESTIONS.push.apply(QUESTIONS, [
   }
 
 ]); // end QUESTIONS.push
+
+
+// ─── Microsoft Practice Assessment — Domain 3 ───
+QUESTIONS.push.apply(QUESTIONS, [
+  {
+    id: 351,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "Your company has a set of resources deployed to an Azure subscription. The resources are deployed to a resource group named app-grp1 by using Azure Resource Manager (ARM) templates.\nYou need to verify the date and the time that the resources in app-grp1 were created.\nWhich blade should you review for app-grp1 in the Azure portal?",
+    options: [
+      "Deployments",
+      "Diagnostics setting",
+      "Deployment stacks",
+      "Policy"
+    ],
+    correct: [0],
+    explanation: "On the Deployments blade for the resource group (app-grp1), all the details related to a deployment, such as the name, status, date last modified, and duration, are visible.\n\nNavigating to the Diagnostics settings blade provides the ability to diagnose errors or review warnings. Navigating to the Policy blade only provides information related to the policies enforced on the resource group."
+  },
+  {
+    id: 352,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You are an Azure Administrator for Best For You Organics Company.\nThe company uses ARM templates for deploying resources.\nYou need to pass an array as an inline parameter during the deployment of the ARM template.\nWhat should you do?",
+    options: [
+      "Modify the template to include the array values.",
+      "Use the --template-file switch to pass the array values.",
+      "Provide the array values in the --parameters switch in the deployment command.",
+      "Create a separate parameters file that includes the array values."
+    ],
+    correct: [2],
+    explanation: "To pass an array as an inline parameter during the deployment of a local template, you should provide the array values in the --parameters switch in the deployment command. The other options are not correct methods for passing an array as an inline parameter."
+  },
+  {
+    id: 353,
+    domain: 3,
+    subdomain: "VM Availability",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You are deploying a virtual machine by using an availability set in the East US Azure region.\nYou have deployed 18 virtual machines in two fault domains and 10 update domains.\nMicrosoft performed planned physical hardware maintenance in the East US region.\nWhat is the maximum number of virtual machines that will be unavailable?",
+    options: [
+      "2",
+      "8",
+      "9",
+      "18"
+    ],
+    correct: [0],
+    explanation: "18 virtual machines are shared across 10 update domains. The first 10 virtual machines go to 10 update domains, so eight update domains will have two virtual machines. When there is physical hardware maintenance, some virtual machines will be unavailable based on their configuration (one update domain is rebooted at a time, so a maximum of two virtual machines are affected). If there was a rack failure, then 18 virtual machines would be distributed to two fault domains with nine virtual machines each."
+  },
+  {
+    id: 354,
+    domain: 3,
+    subdomain: "Virtual Machines",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You plan to deploy an Azure virtual machine.\nYou are evaluating whether to use an Azure Spot instance.\nWhich two factors can cause an Azure Spot instance to be evicted? Each correct answer presents a complete solution.",
+    options: [
+      "the average CPU usages of the instance",
+      "the Azure capacity needs",
+      "the current price of the instance",
+      "the time of day"
+    ],
+    correct: [1, 2],
+    explanation: "Azure Spot instances allow you to provision virtual machines at a reduced cost, but these virtual machines can be stopped by Azure when Azure needs the capacity for other pay-as-you-go workloads, or when the price of the spot instance exceeds the maximum price that you have set. These virtual machines are good for dev, testing, or for workloads that do not require any specific SLA."
+  },
+  {
+    id: 355,
+    domain: 3,
+    subdomain: "Containers",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains an Azure Storage account named vmstorageaccount1.\nYou create an Azure container instance named container1.\nYou need to configure persistent storage for container1.\nWhat should you create in vmstorageaccount1?",
+    options: [
+      "a blob container",
+      "a file share",
+      "a queue",
+      "a table"
+    ],
+    correct: [1],
+    explanation: "An Azure container instance (Docker container) can mount Azure File Storage shares as directories and use them as persistent storage. An Azure container instance cannot mount and use as persistent storage blob containers, queues and tables."
+  },
+  {
+    id: 356,
+    domain: 3,
+    subdomain: "Containers",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "Your company has an Azure subscription that is linked to a Microsoft Entra tenant.\nYou have been asked to limit the access to the Kubernetes API server.\nWhich two options should you choose? Each correct answer presents a complete solution.",
+    options: [
+      "API server authorized IP ranges",
+      "public cluster",
+      "private cluster",
+      "Azure tags"
+    ],
+    correct: [0, 2],
+    explanation: "You can use API server authorized IP ranges if you want to maintain a public endpoint for the API server but restrict access to a set of trusted IP ranges. You can use a private cluster if you want to limit the API server to only be accessible from within your virtual network."
+  },
+  {
+    id: 357,
+    domain: 3,
+    subdomain: "App Service",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a Docker container image named container1.\nYou plan to create a new Azure App Service web app named WebApp1.\nYou need to ensure that you can use container1 for WebApp1.\nWhich WebApp1 setting should you configure?",
+    options: [
+      "Continuous deployment",
+      "Pricing plan",
+      "Publish",
+      "Runtime stack"
+    ],
+    correct: [2],
+    explanation: "If you want to run a Docker container as an Azure web service, you must configure the Publish option and select Docker container.\n\nRuntime stack specifies the stack that you want to use for the web app. If you want to deploy a Docker container as web app, the runtime stack option is unavailable. Pricing plan specifies the location, features, and costs of the web app. Continuous deployment is a strategy for software releases. This option is unavailable when you publish a Docker container as an Azure web app."
+  },
+  {
+    id: 358,
+    domain: 3,
+    subdomain: "Containers",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains an Azure container app named cont1.\nYou plan to add scaling rules to cont1.\nYou need to ensure that cont1 replicas are created based on received messages in Azure Service Bus.\nWhich scale trigger should you use?",
+    options: [
+      "CPU usage",
+      "event-driven",
+      "HTTP traffic",
+      "memory usage"
+    ],
+    correct: [1],
+    explanation: "Azure Container Apps allows a set of triggers to create new instances, called replicas. For Azure Service Bus, an event-driven trigger can be used to run the scaling method. The remaining scale triggers cannot use a scale rule based on messages in an Azure Service Bus."
+  },
+  {
+    id: 359,
+    domain: 3,
+    subdomain: "Containers",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a container app named App1. App1 is configured to use cached data.\nYou plan to create a new container.\nYou need to ensure that the new container automatically refreshes the cache used by App1.\nWhich type of container should you configure?",
+    options: [
+      "blob",
+      "init",
+      "privileged",
+      "sidecar"
+    ],
+    correct: [3],
+    explanation: "Azure Container Apps manages the details of Kubernetes and container orchestration. Containers in Azure Container Apps can use any runtime, programming language, or development stack of your choice. You can define multiple containers in a single container app to implement the sidecar pattern, for example, an agent that reads logs from the primary app container in a shared volume and forwards them to a logging service. A sidecar container can also be used to refresh a cache used by the main app container."
+  },
+  {
+    id: 360,
+    domain: 3,
+    subdomain: "App Service",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains multiple resource groups and Azure App Service web apps. A resource group named RG1 hosts a web app named appservice1.\nThe App Service uses an SSL certificate.\nYou create a resource group named RG2.\nYou plan to move all the resources in RG1 to RG2.\nWhich two actions should you perform? Each correct answer presents part of the solution.",
+    options: [
+      "Create a new App Service plan in RG2.",
+      "Create a new web app in RG2.",
+      "Delete the SSL certificate from RG1 and upload it to RG2.",
+      "Move all the resources from RG1 to RG2."
+    ],
+    correct: [2, 3],
+    explanation: "App Service SSL certificates cannot be moved between resource groups together with the other App Service resources. The SSL certificate must be deleted from RG1 and uploaded again to RG2. You then move all the other resources from RG1 to RG2."
+  },
+  {
+    id: 361,
+    domain: 3,
+    subdomain: "App Service",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have a Basic Azure App Service plan that contains a web app.\nYou need to ensure that the web app can scale automatically when the CPU usage is over 80% for a duration of 15 minutes.\nWhich two actions should you perform? Each correct answer presents part of the solution.",
+    options: [
+      "Configure a deployment slot.",
+      "Configure a scaling condition to scale based on a metric, and then add the rules.",
+      "Configure a scaling condition to scale based on an instance count, and then set the instance count.",
+      "Scale out the App Service plan.",
+      "Scale up the App Service plan."
+    ],
+    correct: [1, 4],
+    explanation: "The Basic App Service plan does not support automatic scaling - you must scale up the plan to Premium (or higher) to support automatic scaling. After that you must configure a scaling condition, based on a metric (CPU), which will automatically trigger scaling (out) of the App Service web app."
+  },
+  {
+    id: 362,
+    domain: 3,
+    subdomain: "App Service",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains an App Service web app named App1.\nYou configure App1 with a custom domain name of webapp1.contoso.com.\nYou need to create a DNS record for App1. The solution must ensure that App1 remains accessible if the IP address changes.\nWhich type of DNS record should you create?",
+    options: [
+      "A",
+      "CNAME",
+      "SOA",
+      "SRV",
+      "TXT"
+    ],
+    correct: [1],
+    explanation: "For web apps, you create either an A (Address) record or a CNAME (Canonical Name) record. An A record maps a domain name to an IP address. A CNAME record maps a domain name to another domain name. DNS uses the second name to look up the address. Users still see the first domain name in their browser. If the IP address changes, a CNAME entry is still valid, whereas an A record must be updated."
+  },
+  {
+    id: 363,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a resource group named RG1.\nYou have an Azure Resource Manager (ARM) template for an Azure virtual machine.\nYou need to use PowerShell to provision a virtual machine in RG1 by using the template.\nWhich PowerShell cmdlet should you run?",
+    options: [
+      "New-AzResourceGroupDeployment",
+      "New-AzSubscriptionDeployment",
+      "New-AzManagementGroupDeployment",
+      "New-AzVM"
+    ],
+    correct: [0],
+    explanation: "Virtual machines are deployed to resource groups, so you must run the New-AzResourceGroupDeployment cmdlet. You cannot deploy virtual machines to subscriptions or management groups directly, therefore, New-AzManagementGroupDeployment and New-AzSubscriptionDeployment cannot be used. New-AzVM can be used to provision a new virtual machine, but without using a template."
+  },
+  {
+    id: 364,
+    domain: 3,
+    subdomain: "VM Availability",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "Your company plans to host an application on four Azure virtual machines.\nYou need to ensure that at least two virtual machines are available if a single Azure datacenter fails.\nWhich availability option should you select for the virtual machine?",
+    options: [
+      "an availability zone",
+      "an availability set",
+      "a scale set with a single placement group",
+      "a proximity placement group"
+    ],
+    correct: [0],
+    explanation: "To protect against datacenter level failures, and if you want connectivity to multiple machines, you must ensure that the virtual machines are deployed across various availability zones. An availability zone is a physically separate datacenter within an Azure region, so distributing the virtual machines across zones keeps machines available even if one datacenter fails. Availability sets only protect against rack/hardware failures within a single datacenter, and proximity placement groups are used to reduce latency by keeping resources close together."
+  },
+  {
+    id: 365,
+    domain: 3,
+    subdomain: "Virtual Machines",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure virtual machine.\nYou receive a notification that the virtual machine is going to be affected by an underlying maintenance activity on the physical infrastructure.\nYou need to move the virtual machine to a different host to avoid a service interruption.\nWhat should you do?",
+    options: [
+      "Redeploy the virtual machine.",
+      "Resize the virtual machine.",
+      "Reapply the virtual machine.",
+      "Restart the virtual machine."
+    ],
+    correct: [0],
+    explanation: "You must redeploy the virtual machine, which can move the virtual machine to a different host. Azure will shut down the virtual machine and move the virtual machine to a new node within the Azure infrastructure. Restarting or reapplying the virtual machine keeps it on the same host, and resizing changes the VM size rather than guaranteeing a move to a new host."
+  },
+  {
+    id: 366,
+    domain: 3,
+    subdomain: "App Service",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains an Azure App Service web app named App1.\nYou have the following diagnostic logging configurations:\nApplication Logging (FileSystem): Error\nApplication Logging (Blob): Information\nDetailed Error Message: Warning\nWeb Server Logging: Verbose\nYou need to configure diagnostic logging to store all warnings or higher.\nWhich types of diagnostic logging and severity should you enable?",
+    options: [
+      "Application Logging (Blob)",
+      "Application Logging (FileSystem)",
+      "Web Server Logging",
+      "Warning",
+      "Information"
+    ],
+    correct: [0, 3],
+    explanation: "You must enable the Application Logging (Blob) diagnostic, which can be stored for more than a week. You must also set the severity level to Warning, to store warning, error, and critical log messages. Application Logging (FileSystem) is intended for short-term, temporary debugging and is automatically turned off after 12 hours, so it is not suitable for storing logs over time."
+  },
+  {
+    id: 367,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure Resource Manager (ARM) template named deploy.json that is stored in an Azure Blob storage container.\nYou plan to deploy the template by running the New-AzDeployment cmdlet.\nWhich parameter should you use to reference the template?",
+    options: [
+      "-TemplateUri",
+      "-TemplateFile",
+      "-TemplateSpecId",
+      "-TemplateParameterFile"
+    ],
+    correct: [0],
+    explanation: "The PowerShell deployment cmdlets can be used to deploy JSON templates that are stored locally, in a resource group as a template spec, or from a web-based location. You can use the -TemplateUri parameter to specify a web-based location, such as GitHub or an Azure Blob Storage account. You can use -TemplateFile to specify a local file. You can use -TemplateSpecId to specify a template that was saved to Azure as a template spec."
+  },
+  {
+    id: 368,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure Resource Manager (ARM) template named Template1 that is used to deploy Azure virtual machines.\nTemplate1 contains the following text.\n\"resources\": [ { \"type\": \"Microsoft.Compute/virtualMachines\", \"apiVersion\": \"2025-04-01\", \"name\": \"[parameters('vmName')]\", \"location\": \"[resourceGroup().location]\", \"properties\": { <text removed> } } ]\nYou need to deploy two Azure virtual machines by using Template1.\nWhat should you add to Template1?",
+    options: [
+      "a copy element",
+      "a newer apiVersion value",
+      "a hardcoded subscription ID",
+      "a second location property"
+    ],
+    correct: [0],
+    explanation: "The correct solution is to add a copy element, because ARM templates use the copy property to deploy multiple instances of a resource, such as two virtual machines, in a single deployment. The API version is already specified in the template and does not control the number of resources deployed. The subscription ID is never hardcoded in ARM templates since deployments are scoped to a subscription, and the resource group location is already provided through \"[resourceGroup().location]\". Therefore, only the copy element enables the template to create two virtual machines from a single resource definition."
+  },
+  {
+    id: 369,
+    domain: 3,
+    subdomain: "App Service",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription.\nYou plan to deploy a web app in a Linux-based Docker container.\nYou need to recommend a solution for the deployment of the web app that meets the following requirements:\nSupports a custom domain name\nProvides the ability to scale out automatically based on demand\nMinimizes administrative effort\nMinimizes costs\nWhich solution should you recommend?",
+    options: [
+      "Azure App Service",
+      "Azure Virtual Machine Scale Sets",
+      "Azure Kubernetes Service (AKS)",
+      "Azure Container Instances"
+    ],
+    correct: [0],
+    explanation: "Azure App Service fulfills all the stated requirements: it supports custom domain names, provides automatic scale out based on demand, minimizes administrative effort as a fully managed platform, and minimizes costs. Azure Virtual Machine Scale Sets, Azure Kubernetes Service (AKS), and Azure Container Instances are more difficult to administer and more costly."
+  }
+]);
+
+
+// ─── Original Practice Questions — Domain 3 ───
+QUESTIONS.push.apply(QUESTIONS, [
+
+  {
+    id: 370,
+    domain: 3,
+    subdomain: "Custom Images and Shared Image Gallery",
+    type: "single",
+    source: "Original Practice",
+    question: "You have configured a Windows VM with applications and settings that you want to reuse as a template for deploying many identical VMs. Before capturing the VM as a managed image, which tool must you run inside the guest OS to remove machine-specific information?",
+    options: [
+      "Disk Cleanup (cleanmgr.exe)",
+      "Sysprep with the /generalize option",
+      "DiskPart with the 'clean all' command",
+      "waagent -deprovision"
+    ],
+    correct: [1],
+    explanation: "Before capturing a Windows VM as a generalized image, you must run Sysprep (System Preparation Tool) with the /generalize option from inside the VM.\n\nSysprep removes machine-specific information so the image can be reused safely:\n• Removes the computer SID (Security Identifier)\n• Removes the computer name\n• Removes other unique identifiers\n• Resets Windows activation\n\nTypical command:\n%WINDIR%\\system32\\sysprep\\sysprep.exe /oobe /generalize /shutdown\n\nThen in Azure:\n1. Deallocate the VM\n2. Mark the VM as generalized (az vm generalize / Set-AzVm -Generalized)\n3. Capture the managed image or create an image version in a Shared Image Gallery (Azure Compute Gallery)\n\nLinux equivalent: waagent -deprovision+user removes machine-specific data on Linux VMs.\n\n• Disk Cleanup only removes temporary files — it does not generalize the OS\n• DiskPart 'clean all' wipes a disk — destructive and unrelated to image capture\n• waagent is the Linux VM agent tool, not used on Windows VMs",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/windows/capture-image-resource"
+  },
+
+  {
+    id: 371,
+    domain: 3,
+    subdomain: "Custom Images and Shared Image Gallery",
+    type: "single",
+    source: "Original Practice",
+    question: "Your team manages a custom VM image used across East US, West Europe, and Southeast Asia. You need to store the image once, replicate it to all three regions, and keep multiple versions for rollback. Which Azure service should you use?",
+    options: [
+      "A standalone managed image resource",
+      "Azure Compute Gallery (Shared Image Gallery)",
+      "Azure Container Registry with geo-replication",
+      "An Azure Storage account with a generalized VHD"
+    ],
+    correct: [1],
+    explanation: "Azure Compute Gallery (formerly Shared Image Gallery) is purpose-built for managing, sharing, and distributing custom VM images at scale.\n\nKey features:\n• Image definitions: Logical grouping (publisher/offer/SKU, OS type, generation)\n• Image versions: Multiple immutable versions (e.g., 1.0.0, 1.0.1) for rollback\n• Global replication: Replicate each version to multiple regions automatically\n• Replica scaling: Set the number of replicas per region for high-volume deployments\n• Sharing: Share across subscriptions, tenants, or with RBAC / community galleries\n• Supports both specialized and generalized images, plus VM applications\n\nHierarchy: Gallery → Image Definition → Image Version\n\n• A standalone managed image lives in a single region and has no versioning or built-in multi-region replication\n• Azure Container Registry geo-replicates container images, not VM images\n• A Storage account with a VHD has no versioning, replication management, or definition structure",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/azure-compute-gallery"
+  },
+
+  {
+    id: 372,
+    domain: 3,
+    subdomain: "Create and Configure Virtual Machines",
+    type: "single",
+    source: "Original Practice",
+    question: "You are deploying stateless VMs from a Shared Image Gallery image. The VMs are frequently re-imaged and you want to avoid the cost of a separate managed OS disk and reduce reimage/boot time. Which OS disk option should you select?",
+    options: [
+      "Premium SSD managed OS disk with read/write host caching",
+      "Ephemeral OS disk stored on the local VM host",
+      "Ultra Disk for the OS disk",
+      "Standard HDD managed OS disk with no caching"
+    ],
+    correct: [1],
+    explanation: "Ephemeral OS disks are created on the local VM host storage (not saved to Azure Storage as a managed disk).\n\nBenefits:\n• No storage cost for the OS disk — it uses the VM's local/cache disk\n• Lower read/write latency (local storage)\n• Very fast reset/reimage to the original boot image\n• Ideal for stateless workloads, scale sets, and frequently re-imaged VMs\n\nLimitations:\n• Data is LOST if the VM is stopped/deallocated, fails, or is moved to another host\n• Cannot be detached or used for OS disk snapshots/backup\n• Disk size limited by the VM's cache or temp disk size\n• Not suitable for stateful workloads needing OS-disk persistence\n\n• A Premium SSD managed OS disk persists data but incurs storage cost and is slower to reimage\n• Ultra Disk is high-performance but cannot be used as an OS disk and is expensive\n• Standard HDD managed OS disk also incurs cost and offers low performance",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/ephemeral-os-disks"
+  },
+
+  {
+    id: 373,
+    domain: 3,
+    subdomain: "Create and Configure Virtual Machines",
+    type: "single",
+    source: "Original Practice",
+    question: "A high-performance computing application requires the lowest possible network latency between a group of VMs that must communicate with each other intensively. The VMs are in the same region. Which feature should you configure to colocate the VMs as close together as possible in the datacenter?",
+    options: [
+      "Availability Zones spanning the region",
+      "A Proximity Placement Group (PPG)",
+      "Accelerated networking on each NIC",
+      "An Availability Set with 3 fault domains"
+    ],
+    correct: [1],
+    explanation: "A Proximity Placement Group (PPG) is a logical grouping that ensures Azure compute resources are physically located close to each other, minimizing network latency between them.\n\nUse cases:\n• High-performance computing (HPC) clusters\n• Latency-sensitive multi-tier applications (app tier close to database tier)\n• Workloads requiring tight VM-to-VM communication\n\nHow it works:\n• The first VM placed in the PPG anchors the physical location\n• Subsequent VMs are placed in the same datacenter/network proximity\n• Best practice: deploy all VMs/the anchor at the same time to avoid allocation failures\n\nNote: Tighter colocation reduces availability options (fewer zones/fault domains available together), so there is a latency-vs-resiliency tradeoff.\n\n• Availability Zones spread VMs across separate datacenters — this INCREASES latency (up to ~2ms), the opposite of the goal\n• Accelerated networking reduces per-packet overhead on a NIC but does not control physical placement\n• An Availability Set spreads VMs across racks for resiliency, not for minimal latency colocation",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/co-location"
+  },
+
+  {
+    id: 374,
+    domain: 3,
+    subdomain: "Create and Configure Virtual Machines",
+    type: "yesno",
+    source: "Original Practice",
+    scenario: "You have a Generation 1 Windows VM running in Azure. A new workload requires features that are only supported on Generation 2 VMs, such as larger OS disks (>2 TB) and UEFI-based boot needed for Trusted Launch.",
+    question: "You can convert the existing Generation 1 VM to Generation 2 in place by changing a setting in the Azure portal VM blade.",
+    options: ["Yes", "No"],
+    correct: [1],
+    explanation: "No — you cannot directly change a VM's generation in the Azure portal as a simple setting.\n\nGeneration facts:\n• Generation 1 (Gen1): BIOS-based boot, broad OS support\n• Generation 2 (Gen2): UEFI-based boot, supports OS disks larger than 2 TB, Trusted Launch (Secure Boot + vTPM), Confidential VMs\n\nAzure does support a Gen1-to-Gen2 conversion, but it is performed via a guided process/tooling (for example, the Hyper-V Gen Conversion guidance or upgrading the image), not a one-click region/portal property on the running VM. The VM generation is fundamentally tied to the image the VM was deployed from.\n\nThe common, supported approach is:\n• Deploy a NEW VM from a Generation 2 image (or a Gen2 image version in the Compute Gallery), then migrate the workload/data\n\nBecause the statement claims an in-place portal toggle exists, the correct answer is No.\n\nTrusted Launch (Secure Boot + vTPM) requires Generation 2 VMs — another reason new Gen2 deployments are recommended.",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/generation-2"
+  },
+
+  {
+    id: 375,
+    domain: 3,
+    subdomain: "Create and Configure Virtual Machines",
+    type: "single",
+    source: "Original Practice",
+    question: "You run a critical production VM that must be guaranteed compute capacity in the East US region so that a future stop/start or scale event never fails due to a capacity shortage. The VM is NOT a Spot VM and you do not want a long-term price discount commitment. What should you create?",
+    options: [
+      "A Reserved VM Instance for 1 year",
+      "An On-demand Capacity Reservation in East US for the required VM size",
+      "An Availability Set with the maximum fault domain count",
+      "A Dedicated Host in East US"
+    ],
+    correct: [1],
+    explanation: "On-demand Capacity Reservations reserve compute capacity for a specific VM size in a specific region (and optionally a zone) for as long as you keep the reservation, with no long-term term commitment.\n\nKey points:\n• Guarantees capacity is available so allocation (start, autoscale, redeploy) does not fail due to regional shortages\n• Billed at the pay-as-you-go rate for the reserved capacity whether or not VMs are using it\n• No 1- or 3-year term commitment (unlike Reserved Instances)\n• Can be associated/disassociated with VMs and scale sets\n• Can be combined with Reserved Instances for cost savings on guaranteed capacity\n\n• A Reserved VM Instance gives a price discount for a 1- or 3-year commitment — the scenario explicitly rules out a long-term commitment, and an RI alone does not strictly guarantee capacity unless paired with a capacity reservation\n• An Availability Set provides fault isolation, not guaranteed allocation capacity\n• A Dedicated Host gives physical isolation but is expensive and overkill for a single VM's capacity guarantee",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/capacity-reservation-overview"
+  },
+
+  {
+    id: 376,
+    domain: 3,
+    subdomain: "ARM Templates and Bicep",
+    type: "single",
+    source: "Original Practice",
+    question: "You want to package an ARM/Bicep template as a versioned, shareable resource in your Azure subscription so that team members can deploy a standardized VM configuration via RBAC without needing access to the raw template files. Which Azure feature should you use?",
+    options: [
+      "A Bicep module stored in a local folder",
+      "A Template Spec",
+      "An Azure DevOps artifact feed",
+      "A deployment script resource"
+    ],
+    correct: [1],
+    explanation: "A Template Spec is an Azure resource that stores an ARM/Bicep template in your subscription for controlled, versioned, RBAC-governed reuse.\n\nBenefits:\n• Stored as a first-class Azure resource (Microsoft.Resources/templateSpecs)\n• Versioning: multiple versions can be kept (e.g., 1.0, 2.0)\n• RBAC: grant users 'Reader' to deploy without giving access to the underlying template text/files\n• Deployment: az deployment group create --template-spec <resourceId>\n• Keeps a single, governed source of truth for standardized deployments\n\nCreate example:\naz ts create --name vmSpec --version 1.0 --resource-group RG1 --location eastus --template-file vm.bicep\n\n• A Bicep module in a local folder is reusable code, but it is not a centrally stored, RBAC-controlled, versioned Azure resource\n• An Azure DevOps artifact feed stores build packages, not Azure-native deployable templates with RBAC\n• A deployment script resource runs scripts during deployment — it does not package/share a template",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/templates/template-specs"
+  },
+
+  {
+    id: 377,
+    domain: 3,
+    subdomain: "ARM Templates and Bicep",
+    type: "single",
+    source: "Original Practice",
+    question: "In a Bicep file you want to deploy a reusable networking component defined in a separate file named 'network.bicep' and pass it parameters. Which Bicep construct references and deploys that separate file?",
+    options: [
+      "An 'import' statement",
+      "A 'module' declaration that points to './network.bicep'",
+      "A 'resource' declaration with type 'Microsoft.Resources/deployments'",
+      "An 'existing' resource reference"
+    ],
+    correct: [1],
+    explanation: "Bicep uses the 'module' keyword to deploy a separate Bicep file as a reusable component and to pass parameters into it.\n\nSyntax:\nmodule net './network.bicep' = {\n  name: 'networkDeploy'\n  params: {\n    vnetName: 'vnet1'\n    addressPrefix: '10.0.0.0/16'\n  }\n}\n\nBenefits:\n• Encapsulation and reuse of common infrastructure\n• Each module becomes a nested deployment under the parent\n• Outputs from a module can be consumed: net.outputs.subnetId\n\n• 'import' is used to bring in shared types/functions or namespaces (e.g., user-defined types), not to deploy another template file\n• Writing a raw Microsoft.Resources/deployments resource is the verbose ARM-JSON nested-template approach — Bicep's 'module' is the idiomatic, cleaner construct\n• 'existing' references an already-deployed resource to read its properties — it does not deploy a separate file",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/bicep/modules"
+  },
+
+  {
+    id: 378,
+    domain: 3,
+    subdomain: "Provision and Manage Containers",
+    type: "single",
+    source: "Original Practice",
+    question: "You deploy an Azure Container Instances (ACI) container group that pulls an image from a private Azure Container Registry. The deployment fails with an authentication error when pulling the image. What is the most appropriate way to allow ACI to authenticate to the private ACR?",
+    options: [
+      "Make the ACR repository publicly anonymous-pull enabled",
+      "Provide registry credentials (the ACR login server, username, and password) or use a managed identity when creating the container group",
+      "Place the ACI and ACR in the same resource group so authentication is automatic",
+      "Open inbound port 443 on the ACR firewall for the ACI public IP"
+    ],
+    correct: [1],
+    explanation: "When ACI pulls an image from a private registry, it must authenticate. You supply registry credentials or use a managed identity at container-group creation time.\n\nUsing credentials (CLI):\naz container create --resource-group RG1 --name app1 --image myacr.azurecr.io/app:v1 \\\n  --registry-login-server myacr.azurecr.io \\\n  --registry-username <user> --registry-password <password>\n\nRecommended (managed identity): assign the container group a managed identity and grant it the AcrPull role on the registry, avoiding stored passwords. (Note: ACI managed-identity image pull has specific support requirements; service principal/admin credentials are the broadly supported method.)\n\n• Enabling anonymous pull works technically but exposes images publicly — a security risk and not appropriate for a private registry\n• Being in the same resource group does NOT grant automatic image-pull authentication\n• ACR access is controlled by RBAC/credentials, not by opening a port for the ACI public IP",
+    reference: "https://learn.microsoft.com/azure/container-instances/container-instances-using-azure-container-registry"
+  },
+
+  {
+    id: 379,
+    domain: 3,
+    subdomain: "Provision and Manage Containers",
+    type: "multi",
+    source: "Original Practice",
+    question: "You are deploying a multi-container application to a single Azure Container Instances (ACI) container group. Which TWO statements about ACI container groups are correct? Each correct answer presents a complete solution.",
+    options: [
+      "All containers in the group share the same lifecycle, local network, and (optionally) mounted volumes",
+      "Containers in the same group share a single public IP address and DNS name label",
+      "Each container in the group is automatically assigned its own separate public IP address",
+      "A container group can automatically scale out to multiple replicas based on CPU usage",
+      "Containers in the group are scheduled on different physical hosts for high availability"
+    ],
+    correct: [0, 1],
+    explanation: "An ACI container group is the top-level resource in ACI and is analogous to a Kubernetes pod: a collection of containers scheduled on the same host machine.\n\nTrue statements:\n• Shared lifecycle, local network, and storage: All containers in the group start/stop together, can reach each other over localhost, and can mount the same Azure Files volumes\n• Shared networking identity: The group exposes a single public IP address and an optional DNS name label; containers expose different ports behind that one IP\n\nWhy the others are wrong:\n• Containers do NOT each get their own separate public IP — the IP belongs to the group\n• ACI does NOT provide built-in autoscaling/replica management based on CPU — use Azure Container Apps or AKS for autoscaling\n• Containers in a group are co-scheduled on the SAME host (not spread for HA) — that co-location is what enables shared localhost networking and volumes",
+    reference: "https://learn.microsoft.com/azure/container-instances/container-instances-container-groups"
+  },
+
+  {
+    id: 380,
+    domain: 3,
+    subdomain: "Provision and Manage Containers",
+    type: "single",
+    source: "Original Practice",
+    question: "You have deployed an application to Azure Container Apps with two revisions. You released a new revision and want to send 20% of incoming HTTP traffic to it while keeping 80% on the previous stable revision, to validate the change gradually. What must you configure?",
+    options: [
+      "Set the container app to single revision mode and restart it",
+      "Enable multiple revision mode and configure traffic splitting weights across the two revisions",
+      "Create a deployment slot and perform a slot swap",
+      "Scale the new revision to 0 replicas and the old revision to maximum replicas"
+    ],
+    correct: [1],
+    explanation: "Azure Container Apps supports revisions — immutable snapshots of a container app version. To split traffic between revisions you must use multiple revision mode and assign traffic weights.\n\nSteps:\n• Set the app to 'Multiple' revision mode (Single mode keeps only one active revision serving 100%)\n• Configure ingress traffic weights, e.g., revision-1 = 80, revision-2 = 20\n• This enables canary / blue-green / A-B testing patterns\n\nExample (CLI):\naz containerapp ingress traffic set --name app1 --resource-group RG1 \\\n  --revision-weight <revision1>=80 <revision2>=20\n\n• Single revision mode allows only one active revision, so traffic cannot be split\n• Deployment slots and slot swaps are an Azure App Service feature, not Container Apps — Container Apps uses revisions for this\n• Manipulating replica counts changes scale, not the percentage of HTTP traffic routed to each revision",
+    reference: "https://learn.microsoft.com/azure/container-apps/revisions"
+  },
+
+  {
+    id: 381,
+    domain: 3,
+    subdomain: "Create and Configure Azure App Service",
+    type: "single",
+    source: "Original Practice",
+    question: "Your App Service web app on a Premium v3 plan must read database connection strings and API keys from Azure Key Vault without storing any secrets in the app's application settings or code. What is the recommended way to achieve this?",
+    options: [
+      "Copy the secret values into the app's Application settings and mark them as slot settings",
+      "Use a Key Vault reference in app settings combined with a managed identity that has 'get' permission on the Key Vault secrets",
+      "Embed the Key Vault access key in the application's web.config file",
+      "Grant the App Service plan a service principal password stored in code"
+    ],
+    correct: [1],
+    explanation: "App Service supports Key Vault references in application settings and connection strings. The value is stored in Key Vault, and App Service resolves it at runtime.\n\nHow it works:\n1. Enable a managed identity (system-assigned or user-assigned) on the web app\n2. Grant that identity access to read secrets (Key Vault access policy 'Get' for secrets, or 'Key Vault Secrets User' RBAC role)\n3. Set an app setting value to a reference:\n   @Microsoft.KeyVault(SecretUri=https://myvault.vault.azure.net/secrets/DbConn/)\n4. App Service fetches the secret using the managed identity — no secret value is stored in the app config or code\n\nBenefits:\n• No secrets in source control or plain app settings\n• Centralized secret rotation in Key Vault\n• Identity-based access (no passwords/keys to manage)\n\n• Copying raw secret values into app settings stores the secret in the app — exactly what must be avoided\n• Embedding a Key Vault access key in web.config stores a credential in code — insecure\n• Storing a service principal password in code is also an exposed credential",
+    reference: "https://learn.microsoft.com/azure/app-service/app-service-key-vault-references"
+  },
+
+  {
+    id: 382,
+    domain: 3,
+    subdomain: "Create and Configure Azure App Service",
+    type: "multi",
+    source: "Original Practice",
+    question: "You need to choose an App Service pricing tier for a production web app that requires VNet Integration, private endpoints, and zone-redundant high availability. Which TWO statements are correct? Each correct answer presents part of the solution.",
+    options: [
+      "Premium v3 (Pv3) supports zone redundancy when 3 or more instances are deployed in a supporting region",
+      "Regional VNet Integration and private endpoints are supported on Premium v3 plans",
+      "The Basic (B1) tier supports zone redundancy and private endpoints",
+      "The Free (F1) tier supports VNet Integration for production isolation",
+      "Zone redundancy requires deploying the app to an Isolated tier only"
+    ],
+    correct: [0, 1],
+    explanation: "Premium v3 (Pv3) is the recommended tier for production apps needing advanced networking and resiliency.\n\nCorrect statements:\n• Zone redundancy on Pv3: When you enable zone redundancy in a supporting region and run 3+ instances, the platform distributes instances across availability zones for higher resiliency\n• Networking on Pv3: Regional VNet Integration (outbound to VNet) and private endpoints (inbound private access) are supported on Standard/Premium tiers, including Pv3\n\nWhy the others are wrong:\n• Basic (B1) does NOT support zone redundancy or private endpoints; it offers only manual scaling and basic features\n• Free (F1) supports no custom networking, scaling, or production isolation\n• Zone redundancy is NOT limited to Isolated — it is available on Premium v3 (and the Isolated v2 tier also supports it), so it is not 'Isolated only'",
+    reference: "https://learn.microsoft.com/azure/app-service/overview-zone-redundancy"
+  },
+
+  {
+    id: 383,
+    domain: 3,
+    subdomain: "Create and Configure Azure App Service",
+    type: "yesno",
+    source: "Original Practice",
+    scenario: "You have two App Service apps, AppA and AppB, that must run in the same Azure region. AppA is CPU-intensive and AppB is memory-intensive. You place both apps in the same App Service plan to simplify management.",
+    question: "Placing both apps in the same App Service plan means they share the same underlying compute instances and their resource consumption affects each other.",
+    options: ["Yes", "No"],
+    correct: [0],
+    explanation: "Yes — apps in the SAME App Service plan run on the SAME set of underlying compute instances (VMs), and they share that compute capacity.\n\nKey points:\n• An App Service plan defines the region, instance size (CPU/RAM), and number of instances\n• Every app assigned to the plan runs on all instances of the plan\n• Apps in the same plan compete for the same CPU, memory, and other resources\n• Scaling (up or out) applies to the whole plan and all apps in it\n\nBest practice / implication for this scenario:\n• Because AppA (CPU-heavy) and AppB (memory-heavy) would contend for the same resources and could starve each other, it is generally better to isolate resource-intensive apps in SEPARATE App Service plans\n• You only pay for the plan, so consolidating low-traffic apps in one plan saves cost — but resource-intensive apps should be separated\n\nThe statement accurately describes the shared-compute behavior, so the answer is Yes.",
+    reference: "https://learn.microsoft.com/azure/app-service/overview-hosting-plans"
+  },
+
+  {
+    id: 384,
+    domain: 3,
+    subdomain: "Provision and Manage Containers",
+    type: "dragdrop",
+    source: "Original Practice",
+    question: "Match each Azure compute/container service to the scenario it best fits.",
+    dragItems: [
+      "Azure Container Instances (ACI)",
+      "Azure Container Apps",
+      "Azure App Service",
+      "Azure Virtual Machine Scale Sets (VMSS)"
+    ],
+    dropZones: [
+      "Run a single short-lived containerized batch job quickly with per-second billing and no orchestrator",
+      "Run serverless microservices that scale to zero and use KEDA event-driven autoscaling",
+      "Host a managed web application with deployment slots and built-in custom domain/TLS",
+      "Run a large fleet of identical IaaS VMs with autoscaling and rolling OS upgrades"
+    ],
+    correct: [[0, 0], [1, 1], [2, 2], [3, 3]],
+    explanation: "Matching compute services to their ideal scenarios:\n\n• Azure Container Instances (ACI) → Single short-lived containerized job: ACI runs containers fast with per-second billing and no cluster/orchestrator to manage. Great for simple, isolated, or burst jobs.\n\n• Azure Container Apps → Serverless microservices with scale-to-zero: Built on Kubernetes + KEDA, it provides event-driven autoscaling (HTTP, queues, custom metrics), scale to zero, revisions, and Dapr — without managing infrastructure.\n\n• Azure App Service → Managed web app with slots and custom domain/TLS: A PaaS for web apps/APIs with deployment slots, autoscale, custom domains, managed certificates, and easy CI/CD.\n\n• Azure Virtual Machine Scale Sets (VMSS) → Large fleet of identical IaaS VMs: Provides autoscaling of identical VMs, zone spanning, and rolling upgrades for OS/image updates — full IaaS control.\n\nChoosing the right service: ACI = simplest containers/jobs; Container Apps = serverless microservices; App Service = managed web apps; VMSS = scalable IaaS VMs.",
+    reference: "https://learn.microsoft.com/azure/container-apps/compare-options"
+  }
+
+]);
+
+
+// ─── Microsoft Practice Assessment (Attempt 2 additions) — Domain 3 ───
+QUESTIONS.push.apply(QUESTIONS, [
+  {
+    id: 385,
+    domain: 3,
+    subdomain: "ARM Templates",
+    type: "multi",
+    source: "MS Practice Assessment",
+    question: "You have an Azure subscription that contains a resource group named RG1. RG1 contains an Azure virtual machine named VM1.\nYou need to use VM1 as a template to create a new Azure virtual machine.\nWhich three methods can you use to complete the task? Each correct answer presents a complete solution.",
+    options: [
+      "From Azure Cloud Shell, run the Save-AzDeploymentTemplate and New-AzResourceGroupDeployment cmdlets.",
+      "From RG1, select Export template, select Download, and then from Azure Cloud Shell run the New-AzResourceGroupDeployment cmdlet.",
+      "From VM1, select Export template, and then select Deploy.",
+      "From Azure Cloud Shell, run the Save-AzDeploymentScriptLog cmdlet.",
+      "From Azure Cloud Shell, run the Get-AzVM cmdlet."
+    ],
+    correct: [0, 1, 2],
+    explanation: "All three correct methods produce/deploy an ARM template based on the existing configuration:\n• Save-AzDeploymentTemplate saves the resource ARM template; you then deploy it with New-AzResourceGroupDeployment.\n• Export template > Download from RG1 exports the ARM template from the resource group; you then deploy it with New-AzResourceGroupDeployment.\n• Export template > Deploy from VM1 lets you deploy a new VM using VM1's configuration as the template.\n\nWhy the others are wrong:\n• Save-AzDeploymentScriptLog saves the log of a deployment script execution — it does not export a template.\n• Get-AzVM only lists virtual machines in the subscription; it does not create or template a VM.",
+    reference: "https://learn.microsoft.com/azure/azure-resource-manager/templates/export-template-portal"
+  },
+  {
+    id: 386,
+    domain: 3,
+    subdomain: "VM Scale Sets",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You are creating an Azure virtual machine that will run Windows Server.\nYou need to ensure that VM1 will be part of a virtual machine scale set.\nWhich setting should you configure during the creation of the virtual machine?",
+    options: ["Availability options", "Azure Spot instance", "Region", "Management"],
+    correct: [0],
+    explanation: "During VM creation, the scale set membership is selected from the Availability options setting (alongside availability sets and availability zones).\n\nWhy the others are wrong:\n• Azure Spot instance adds VMs at a discounted, evictable price — it does not place a VM in a scale set.\n• Region selects the datacenter location and does not affect availability/scale-set configuration.\n• The Management tab configures monitoring and management options, not availability.",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/availability"
+  },
+  {
+    id: 387,
+    domain: 3,
+    subdomain: "Managed Disks",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You have two Azure virtual machines named VM1 and VM2 that run Windows Server.\nVM1 has a single data disk that stores backup files.\nYou need to move the data disk from VM1 to VM2 as quickly as possible.\nWhat should you do first?",
+    options: [
+      "Detach the data disk from VM1.",
+      "Stop (deallocate) VM1.",
+      "Stop (deallocate) VM2.",
+      "Create a snapshot of the data disk and create a new disk from it."
+    ],
+    correct: [0],
+    explanation: "You can detach a data disk from a running VM (hot removal) and then attach it to VM2 — this is the fastest approach. You do not need to stop VM1 or VM2, and you do not need to copy the disk.\n\nWhy the others are wrong:\n• Stopping VM1 or VM2 is unnecessary because hot detach/attach is supported, and stopping would be slower.\n• Creating a snapshot and a new disk copies the data (slow) rather than moving the existing disk.",
+    reference: "https://learn.microsoft.com/azure/virtual-machines/windows/detach-disk"
+  },
+  {
+    id: 388,
+    domain: 3,
+    subdomain: "App Service",
+    type: "single",
+    source: "MS Practice Assessment",
+    question: "You need to create an Azure App Service web app that runs on Windows. The web app requires scaling to five instances, 45 GB of storage, and a custom domain name. The solution must minimize costs.\nWhich App Service plan should you use?",
+    options: ["Standard", "Basic", "Premium", "Free"],
+    correct: [0],
+    explanation: "The Standard plan meets all requirements at the lowest cost: it supports custom domains, up to 50 GB of disk space, and scaling out to 10 instances (covering the required five). It costs roughly $0.10/hour.\n\nWhy the others are wrong:\n• Free offers only 1 GB of storage and cannot scale out (0 instances), and does not support custom domains.\n• Basic offers 10 GB and up to 3 instances — insufficient for 45 GB and 5 instances.\n• Premium meets the requirements (250 GB, up to 30 instances) but costs about twice as much (~$0.20/hour), so it does not minimize cost.",
+    reference: "https://azure.microsoft.com/pricing/details/app-service/windows/"
+  }
+]);
